@@ -1,0 +1,314 @@
+League ID (V3)	League Id (V2)	Country	Name	Season	Start	End	Current
+1	4265	World	 World Cup	2022	2022-11-20	2022-12-18	True
+2	5262	World	 UEFA Champions League	2023	2023-06-27	2023-12-13	True
+3	5607	World	 UEFA Europa League	2023	2023-08-08	2023-12-14	True
+4	403	World	 Euro Championship	2020	2019-03-21	2021-07-11	True
+5	4260	World	 UEFA Nations League	2022	2022-06-01	2024-03-24	True
+6	5813	World	 Africa Cup of Nations	2023	2024-01-13	2024-01-24	True
+7	5260	World	 Asian Cup	2023	2024-01-12	2024-01-25	True
+8	5111	World	 World Cup - Women	2023	2023-07-20	2023-08-20	True
+9	1321	World	 Copa America	2021	2021-06-13	2021-07-11	True
+10	4974	World	 Friendlies	2023	2023-01-03	2024-01-06	True
+11	4949	World	 CONMEBOL Sudamericana	2023	2023-03-06	2023-10-28	True
+12	5569	World	 CAF Champions League	2023	2023-08-18	2024-03-01	True
+13	4947	World	 CONMEBOL Libertadores	2023	2023-02-08	2023-11-04	True
+14	5737	World	 UEFA Youth League	2023	2023-09-19	2023-12-13	True
+15	5832	World	 FIFA Club World Cup	2023	2023-12-12	2023-12-15	True
+16	4878	World	 CONCACAF Champions League	2023	2023-03-07	2023-06-04	True
+17	5290	World	 AFC Champions League	2023	2023-08-15	2023-12-13	True
+18	5291	World	 AFC Cup	2023	2023-08-08	2023-12-14	True
+19	4832	World	 African Nations Championship	2022	2023-01-13	2023-02-04	True
+20	5568	World	 CAF Confederation Cup	2023	2023-08-18	2024-03-03	True
+21	1037	World	 Confederations Cup	2017	2017-06-17	2017-07-02	True
+22	5158	World	 CONCACAF Gold Cup	2023	2023-06-25	2023-07-16	True
+23	4274	World	 EAFF E-1 Football Championship	2021	2022-07-19	2022-07-27	True
+24	4798	World	 AFF Championship	2022	2022-11-05	2023-01-16	True
+25	4869	World	 Gulf Cup of Nations	2023	2023-01-06	2023-01-19	True
+26	1051	World	International Champions Cup	2019	2019-07-17	2019-08-10	True
+27	5068	World	OFC Champions League	2023	2023-02-11	2023-05-27	True
+28	5207	World	SAFF Championship	2023	2023-06-21	2023-07-04	True
+29	5733	World	World Cup - Qualification Africa	2023	2023-11-13	2025-10-13	True
+30	5583	World	World Cup - Qualification Asia	2026	2023-10-12	2024-06-11	True
+31	2793	World	World Cup - Qualification CONCACAF	2022	2021-03-23	2022-03-30	True
+32	3079	World	World Cup - Qualification Europe	2020	2021-03-24	2022-06-05	True
+33	4018	World	World Cup - Qualification Oceania	2022	2022-03-13	2022-03-30	True
+34	5582	World	World Cup - Qualification South America	2026	2023-09-07	2025-10-14	True
+35	3504	World	 Asian Cup - Qualification	2022	2021-10-07	2022-06-14	True
+36	4241	World	 Africa Cup of Nations - Qualification	2023	2022-03-21	2023-03-28	True
+37	4264	World	World Cup - Qualification Intercontinental Play-offs	2022	2022-06-13	2022-06-14	True
+38	4855	World	UEFA U21 Championship	2023	2023-06-21	2023-07-08	True
+39	5267	 England	 Premier League	2023	2023-08-11	2024-05-19	True
+40	5342	 England	 Championship	2023	2023-08-04	2024-05-04	True
+41	5294	 England	 League One	2023	2023-08-05	2024-04-27	True
+42	5295	 England	 League Two	2023	2023-08-05	2024-04-27	True
+44	5480	 England	 FA WSL	2023	2023-10-01	2024-05-18	True
+45	5418	 England	 FA Cup	2023	2023-08-04	2023-12-02	True
+46	5570	 England	 EFL Trophy	2023	2023-08-22	2023-11-21	True
+48	5296	 England	 League Cup	2023	2023-08-08	2023-12-19	True
+61	5322	 France	 Ligue 1	2023	2023-08-13	2024-05-18	True
+62	5329	 France	 Ligue 2	2023	2023-08-05	2024-05-18	True
+64	5447	 France	 Feminine Division 1	2023	2023-09-16	2024-05-08	True
+65	783	 France	 Coupe de la Ligue	2019	2019-07-26	2020-07-31	True
+66	5827	 France	 Coupe de France	2023	2023-11-17	2023-11-19	True
+71	5074	 Brazil	 Serie A	2023	2023-04-15	2023-12-03	True
+72	5082	 Brazil	 Serie B	2023	2023-04-14	2023-11-25	True
+73	5067	 Brazil	 Copa Do Brasil	2023	2023-02-21	2023-09-24	True
+74	5078	 Brazil	 Brasileiro Women	2023	2023-02-24	2023-09-10	True
+78	5348	 Germany	 Bundesliga	2023	2023-08-18	2024-05-18	True
+79	5347	 Germany	 2. Bundesliga	2023	2023-07-28	2024-05-19	True
+80	5399	 Germany	 3. Liga	2023	2023-08-05	2024-05-18	True
+81	5275	 Germany	 DFB Pokal	2023	2023-08-11	2023-12-05	True
+82	5464	 Germany	 Frauen Bundesliga	2023	2023-09-15	2024-05-20	True
+88	5389	 Netherlands	 Eredivisie	2023	2023-08-11	2024-05-19	True
+89	5321	 Netherlands	 Eerste Divisie	2023	2023-08-11	2024-05-10	True
+90	5377	 Netherlands	 KNVB Beker	2023	2023-08-12	2023-12-19	True
+91	5522	 Netherlands	 Eredivisie Women	2023	2023-09-08	2024-05-10	True
+94	5421	 Portugal	 Primeira Liga	2023	2023-08-13	2024-05-19	True
+95	5445	 Portugal	 Segunda Liga	2023	2023-08-13	2024-05-19	True
+96	5662	 Portugal	 Taça de Portugal	2023	2023-09-08	2023-11-25	True
+97	5362	 Portugal	 Taça da Liga	2023	2023-07-21	2023-12-22	True
+98	4961	 Japan	 J1 League	2023	2023-02-17	2023-12-03	True
+99	4960	 Japan	 J2 League	2023	2023-02-18	2023-11-26	True
+101	5019	 Japan	 J-League Cup	2023	2023-03-08	2023-11-04	True
+102	5206	 Japan	Emperor Cup	2023	2023-05-20	2023-12-09	True
+103	5054	 Norway	Eliteserien	2023	2023-04-10	2023-12-02	True
+104	5056	 Norway	 1. Division	2023	2023-04-10	2023-11-25	True
+105	5209	 Norway	 NM Cupen	2023	2023-05-22	2023-12-09	True
+106	5271	 Poland	 Ekstraklasa	2023	2023-07-22	2024-05-25	True
+107	5282	 Poland	 I Liga	2023	2023-07-22	2024-05-25	True
+108	5287	 Poland	 Cup	2023	2023-08-02	2023-12-05	True
+110	5279	 Wales	 Premier League	2023	2023-08-11	2024-01-13	True
+111	5319	 Wales	 FAW Championship	2023	2023-07-27	2024-04-13	True
+112	5717	 Wales	 Welsh Cup	2023	2023-09-15	2023-11-11	True
+113	5055	 Sweden	 Allsvenskan	2023	2023-04-01	2023-11-12	True
+114	5057	 Sweden	 Superettan	2023	2023-04-01	2023-11-11	True
+115	5211	 Sweden	 Svenska Cupen	2023	2023-05-23	2023-08-24	True
+116	5087	 Belarus	 Premier League	2023	2023-03-17	2023-12-02	True
+117	5122	 Belarus	 1. Division	2023	2023-04-01	2023-11-25	True
+118	5155	 Belarus	 2. Division	2023	2023-04-15	2023-11-19	True
+119	5265	 Denmark	 Superliga	2023	2023-07-21	2024-03-17	True
+120	5281	 Denmark	 1. Division	2023	2023-07-21	2024-03-17	True
+121	5376	 Denmark	 DBU Pokalen	2023	2023-08-05	2023-12-10	True
+128	4872	 Argentina	 Liga Profesional Argentina	2023	2023-01-26	2023-07-30	True
+129	4972	 Argentina	 Primera Nacional	2023	2023-02-04	2023-11-25	True
+130	4930	 Argentina	 Copa Argentina	2023	2023-01-23	2023-11-15	True
+131	4989	 Argentina	 Primera B Metropolitana	2023	2023-02-10	2023-11-18	True
+135	5367	 Italy	 Serie A	2023	2023-08-19	2024-05-26	True
+136	5419	 Italy	 Serie B	2023	2023-08-18	2024-05-10	True
+137	5574	 Italy	 Coppa Italia	2023	2023-08-05	2024-01-04	True
+138	5658	 Italy	 Serie C - Girone A	2023	2023-09-03	2024-04-28	True
+139	5760	 Italy	 Serie A Women	2023	2023-09-16	2024-02-17	True
+140	5284	 Spain	 La Liga	2023	2023-08-11	2024-05-26	True
+141	5323	 Spain	 Segunda División	2023	2023-08-13	2024-06-02	True
+142	5576	 Spain	 Primera División Femenina	2023	2023-09-10	2024-06-16	True
+143	5796	 Spain	 Copa del Rey	2023	2023-10-11	2023-11-01	True
+144	5286	 Belgium	 Jupiler Pro League	2023	2023-07-28	2024-03-16	True
+145	5297	 Belgium	 Challenger Pro League	2023	2023-08-11	2024-04-20	True
+146	5299	 Belgium	 Super League Women	2023	2023-08-25	2024-03-09	True
+147	5441	 Belgium	 Cup	2023	2023-07-28	2023-12-05	True
+162	5270	Costa-Rica	Primera División	2023	2023-07-26	2023-11-26	True
+164	4946	Iceland	Úrvalsdeild	2023	2023-04-10	2023-10-08	True
+167	5091	Iceland	Cup	2023	2023-03-22	2023-09-16	True
+168	4907	Iceland	League Cup	2023	2023-02-04	2023-04-02	True
+169	5146	 China	Super League	2023	2023-04-15	2023-11-04	True
+170	5156	 China	League One	2023	2023-04-22	2023-11-05	True
+171	5203	 China	 FA Cup	2023	2023-05-17	2023-11-25	True
+172	5344	 Bulgaria	 First League	2023	2023-07-14	2024-04-20	True
+173	5293	 Bulgaria	 Second League	2023	2023-07-15	2024-05-25	True
+174	5667	 Bulgaria	 Cup	2023	2023-08-09	2023-12-05	True
+179	5551	 Scotland	Premiership	2023	2023-08-05	2024-04-13	True
+180	5359	 Scotland	Championship	2023	2023-08-04	2024-05-03	True
+181	5585	 Scotland	FA Cup	2023	2023-08-12	2023-11-25	True
+185	5234	 Scotland	League Cup	2023	2023-07-15	2023-12-17	True
+186	5721	 Algeria	 Ligue 1	2023	2023-09-15	2023-11-10	True
+188	5719	 Australia	 A-League	2023	2023-10-20	2024-04-29	True
+189	4931	 Australia	 Capital Territory NPL	2023	2023-04-01	2023-09-23	True
+190	5718	 Australia	 W-League	2023	2023-10-14	2024-03-31	True
+197	5471	Greece	Super League 1	2023	2023-08-19	2024-03-03	True
+198	3027	Greece	Football League	2020	2021-03-27	2021-06-27	True
+199	5711	Greece	Cup	2023	2023-08-26	2024-01-10	True
+200	5693	Morocco	Botola Pro	2023	2023-08-25	2023-11-12	True
+201	5694	Morocco	 Botola 2	2023	2023-09-02	2023-11-12	True
+202	5608	 Tunisia	 Ligue 1	2023	2023-08-19	2023-12-30	True
+203	5476	 Turkey	 Süper Lig	2023	2023-08-13	2024-05-19	True
+204	5477	 Turkey	 1. Lig	2023	2023-08-13	2024-05-12	True
+206	5765	 Turkey	 Cup	2023	2023-09-17	2023-12-05	True
+207	5346	 Switzerland	 Super League	2023	2023-07-22	2024-02-03	True
+208	5285	 Switzerland	 Challenge League	2023	2023-07-21	2023-12-15	True
+209	5351	 Switzerland	 Schweizer Pokal	2023	2023-08-18	2024-02-27	True
+210	5263	 Croatia	 HNL	2023	2023-07-22	2024-05-25	True
+211	5343	 Croatia	 First NL	2023	2023-08-11	2024-03-16	True
+212	5542	 Croatia	 Cup	2023	2023-08-19	2023-11-01	True
+218	5309	 Austria	 Bundesliga	2023	2023-07-28	2024-03-16	True
+219	5320	 Austria	 2. Liga	2023	2023-07-28	2024-05-26	True
+220	5308	 Austria	 Cup	2023	2023-07-20	2024-02-02	True
+233	5761	 Egypt	 Premier League	2023	2023-09-18	2024-01-08	True
+234	5472	 Honduras	 Liga Nacional	2023	2023-07-29	2023-11-25	True
+235	5305	Russia	 Premier League	2023	2023-07-23	2024-05-25	True
+236	5371	Russia	 First League	2023	2023-07-15	2024-05-25	True
+237	5406	Russia	Cup	2023	2023-07-25	2024-03-12	True
+239	4992	Colombia	 Primera A	2023	2023-01-25	2023-11-26	True
+240	5003	Colombia	Primera B	2023	2023-02-03	2023-11-18	True
+241	5000	Colombia	Copa Colombia	2023	2023-02-14	2023-11-23	True
+242	5022	 Ecuador	Liga Pro	2023	2023-02-25	2023-12-03	True
+243	5100	 Ecuador	 Liga Pro Serie B	2023	2023-03-15	2023-10-25	True
+244	5024	 Finland	Veikkausliiga	2023	2023-04-05	2023-11-05	True
+245	5040	 Finland	Ykkönen	2023	2023-04-14	2023-10-21	True
+246	5043	 Finland	 Suomen Cup	2023	2023-02-19	2023-09-30	True
+250	4890	 Paraguay	 Division Profesional - Apertura	2023	2023-01-27	2023-06-11	True
+252	4889	 Paraguay	 Division Profesional - Clausura	2023	2023-07-07	2023-12-01	True
+253	4944	USA	 Major League Soccer	2023	2023-02-25	2023-11-27	True
+254	5064	USA	 NWSL Women	2023	2023-03-25	2023-11-12	True
+255	4977	USA	 USL Championship	2023	2023-03-11	2023-11-13	True
+257	5060	USA	US Open Cup	2023	2023-03-21	2023-09-27	True
+259	5041	 Canada	 Canadian Championship	2023	2023-04-18	2023-07-06	True
+261	5444	Luxembourg	National Division	2023	2023-08-06	2024-05-26	True
+262	5230	Mexico	Liga MX	2023	2023-07-01	2023-12-02	True
+263	5373	Mexico	Liga de Expansión MX	2023	2023-07-22	2023-11-18	True
+264	890	Mexico	Copa MX	2019	2019-07-31	2020-09-22	True
+265	4967	 Chile	 Primera División	2023	2023-01-22	2023-12-10	True
+267	5105	 Chile	 Copa Chile	2023	2023-03-10	2023-12-20	True
+268	5021	Uruguay	Primera División - Apertura	2023	2023-02-03	2023-07-30	True
+270	5577	Uruguay	Primera División - Clausura	2023	2023-08-18	2023-12-16	True
+276	5478	 Kenya	 FKF Premier League	2023	2023-08-26	2024-06-23	True
+277	5697	 Kenya	 Super League	2023	2023-09-16	2024-06-30	True
+280	3022	New-Zealand	Premiership	2020	2020-11-14	2021-03-21	True
+281	4978	Peru	Primera División	2023	2023-02-03	2023-11-08	True
+283	5352	Romania	Liga I	2023	2023-07-14	2024-03-09	True
+285	5400	Romania	Cupa României	2023	2023-07-12	2023-12-06	True
+286	5578	Serbia	Super Liga	2023	2023-07-29	2024-04-14	True
+288	5606	South-Africa	Premier Soccer League	2023	2023-08-04	2024-05-25	True
+290	5505	 Iran	 Persian Gulf Pro League	2023	2023-08-09	2024-01-03	True
+292	5059	South-Korea	K League 1	2023	2023-02-25	2023-12-03	True
+294	5090	South-Korea	FA Cup	2023	2023-03-04	2023-11-04	True
+296	5398	Thailand	Thai League 1	2023	2023-08-11	2024-06-16	True
+298	5749	Thailand	FA Cup	2023	2023-10-04	2023-11-01	True
+299	5034	Venezuela	Primera División	2023	2023-02-03	2023-11-25	True
+301	5298	 United-Arab-Emirates	 Pro League	2023	2023-08-18	2024-05-25	True
+302	5581	 United-Arab-Emirates	 League Cup	2023	2023-08-30	2023-12-12	True
+304	4954	 Panama	 Liga Panameña de Fútbol	2023	2023-01-14	2023-11-22	True
+305	5601	 Qatar	 Stars League	2023	2023-08-16	2024-04-26	True
+307	5475	 Saudi-Arabia	 Pro League	2023	2023-08-11	2024-05-27	True
+310	5673	 Albania	 Superliga	2023	2023-08-26	2024-05-11	True
+314	5781	 Bosnia	 Cup	2023	2023-09-27	2023-09-27	True
+315	5357	 Bosnia	Premijer Liga	2023	2023-07-29	2024-03-10	True
+322	5816	Jamaica	Premier League	2023	2023-10-22	2024-04-14	True
+323	5754	 India	Indian Super League	2023	2023-09-21	2023-12-29	True
+324	5806	 India	I-League	2023	2023-10-28	2023-12-24	True
+325	5792	 India	Santosh Trophy	2023	2023-10-08	2023-10-24	True
+332	5310	 Slovakia	 Super Liga	2023	2023-07-28	2024-03-02	True
+333	5416	 Ukraine	 Premier League	2023	2023-07-29	2024-05-25	True
+334	5440	 Ukraine	 Persha Liga	2023	2023-07-28	2023-11-25	True
+335	5541	 Ukraine	 Cup	2023	2023-07-29	2023-11-01	True
+338	5283	 Guatemala	 Primera Division	2023	2023-07-29	2023-11-18	True
+340	5793	 Vietnam	 V.League 1	2024	2023-10-20	2023-12-27	True
+341	5795	 Vietnam	 Cup	2024	2023-11-24	2023-11-24	True
+345	5350	 Czech-Republic	 Czech Liga	2023	2023-07-22	2024-04-27	True
+347	5365	 Czech-Republic	 Cup	2023	2023-07-22	2023-12-06	True
+357	5058	 Ireland	Premier Division	2023	2023-02-17	2023-11-10	True
+358	4929	 Ireland	First Division	2023	2023-02-17	2023-11-04	True
+359	5227	 Ireland	FAI Cup	2023	2023-07-21	2023-11-12	True
+360	1386	 Ireland	League Cup	2020	2020-03-08	2020-03-23	True
+380	5691	 Hong-Kong	 Premier League	2023	2023-08-19	2024-05-26	True
+383	5278	Israel	Ligat Ha'al	2023	2023-08-26	2024-03-09	True
+384	5726	Israel	State Cup	2023	2023-08-31	2023-10-16	True
+385	5280	Israel	Toto Cup Ligat Al	2023	2023-07-20	2024-01-23	True
+386	5798	Ivory-Coast	Ligue 1	2023	2023-10-07	2023-11-13	True
+387	5163	Jordan	League	2023	2023-08-03	2023-12-17	True
+399	5801	Nigeria	NPFL	2024	2023-09-17	2024-06-09	True
+402	4836	Sudan	Sudani Premier League	2022	2022-10-10	2023-05-07	True
+403	5797	Senegal	Ligue 1	2023	2023-10-28	2023-11-13	True
+407	5353	 Northern-Ireland	Championship	2023	2023-08-05	2024-03-23	True
+408	5355	 Northern-Ireland	Premiership	2023	2023-08-05	2024-03-23	True
+424	5369	 Congo-DR	 Ligue 1	2023	2023-08-23	2023-12-27	True
+425	5802	Syria	Premier League	2023	2023-09-22	2023-12-22	True
+479	5029	 Canada	 Canadian Premier League	2023	2023-04-15	2023-10-28	True
+480	3394	World	Olympics Men	2020	2021-07-22	2021-08-07	True
+488	5436	 Germany	U19 Bundesliga	2023	2023-08-13	2024-05-11	True
+490	5160	World	World Cup - U20	2023	2023-05-20	2023-06-11	True
+493	5157	World	UEFA U19 Championship	2023	2023-07-03	2023-07-16	True
+504	5558	 Saudi-Arabia	King's Cup	2024	2023-09-24	2023-12-11	True
+517	4981	 Argentina	 Trofeo de Campeones de la Superliga	2023	2023-02-23	2023-03-01	True
+519	5269	 Belgium	 Super Cup	2022	2023-07-23	2023-07-23	True
+524	3395	World	Olympics Women	2020	2021-07-21	2021-08-06	True
+525	5339	World	UEFA Champions League Women	2023	2023-09-06	2024-01-31	True
+526	5217	 France	 Trophée des Champions	2023	2023-08-05	2023-08-05	True
+528	5224	 England	Community Shield	2023	2023-08-06	2023-08-06	True
+529	5223	 Germany	Super Cup	2023	2023-08-12	2023-08-12	True
+531	5235	World	UEFA Super Cup	2023	2023-08-16	2023-08-16	True
+533	5259	World	CAF Super Cup	2023	2023-08-11	2023-08-11	True
+536	5408	World	CONCACAF Nations League	2023	2023-09-07	2023-11-21	True
+542	5820	 Iraq	 Iraqi League	2023	2023-10-26	2024-07-05	True
+543	5210	 Netherlands	 Super Cup	2022	2023-08-06	2023-08-06	True
+544	5809	 Hong-Kong	 FA Cup	2024	2023-10-14	2024-03-09	True
+547	4408	 Italy	 Super Cup	2022	2023-01-18	2023-01-18	True
+548	4952	 Japan	 Super Cup	2023	2023-02-11	2023-02-11	True
+549	4995	 Sweden	 Damallsvenskan	2023	2023-03-24	2023-11-11	True
+550	5225	 Portugal	 Super Cup	2023	2023-08-05	2023-08-05	True
+551	5818	 Turkey	 Super Cup	2023	2023-12-30	2023-12-30	True
+556	5815	 Spain	 Super Cup	2023	2024-01-10	2024-01-10	True
+559	5556	 Northern-Ireland	League Cup	2023	2023-08-19	2023-12-05	True
+570	5610	 Ghana	 Premier League	2023	2023-09-15	2024-06-15	True
+584	5819	 Libya	 Premier League	2023	2023-10-27	2023-11-09	True
+586	5650	Palestine	West Bank Premier League	2023	2023-08-17	2023-10-07	True
+587	5774	World	World Cup - U17	2023	2023-11-10	2023-11-18	True
+589	5153	 Chinese-Taipei	 Taiwan Football Premier League	2023	2023-04-16	2023-12-10	True
+632	4892	 Brazil	 Supercopa do Brasil	2023	2023-01-28	2023-01-28	True
+639	4951	Iceland	Super Cup	2023	2023-04-04	2023-04-04	True
+640	5039	 Finland	Kansallinen Liiga	2023	2023-04-14	2023-10-14	True
+641	5065	USA	NWSL Women - Challenge Cup	2023	2023-04-19	2023-09-09	True
+649	5108	Russia	 Supreme Division Women	2023	2023-03-10	2023-11-25	True
+659	5232	Israel	 Super Cup	2023	2023-07-22	2023-07-22	True
+667	4991	World	Friendlies Clubs	2023	2023-01-03	2023-11-18	True
+670	2836	 England	 Community Shield Women	2020	2020-08-29	2020-08-29	True
+671	4948	Iceland	 Úrvalsdeild Women	2023	2023-04-25	2023-10-06	True
+678	3421	 Ukraine	Super Cup	2021	2021-09-22	2021-09-22	True
+697	5729	 England	 WSL Cup	2023	2023-10-11	2024-01-25	True
+698	5817	 England	 FA Women's Cup	2023	2023-10-22	2023-11-26	True
+712	5020	Colombia	Liga Femenina	2023	2023-02-04	2023-06-29	True
+713	5017	Colombia	Superliga	2023	2023-02-09	2023-02-17	True
+714	5173	 Egypt	Cup	2022	2023-05-07	2024-03-13	True
+743	3174	World	 UEFA Championship - Women	2021	2019-08-29	2022-07-31	True
+767	4325	World	CONCACAF League	2022	2022-07-27	2022-11-03	True
+768	5101	World	Arab Club Champions Cup	2023	2023-03-02	2023-08-12	True
+769	3208	World	Premier League Asia Trophy	2019	2019-07-17	2019-07-20	True
+770	5830	World	Pacific Games	2023	2023-11-17	2023-11-24	True
+771	4807	World	COSAFA U20 Championship	2022	2022-10-07	2022-10-16	True
+772	5113	World	Leagues Cup	2023	2023-07-22	2023-08-20	True
+803	5652	World	Asian Games	2022	2023-09-19	2023-10-07	True
+804	3245	World	Caribbean Cup	2016	2016-03-22	2017-06-25	True
+805	3249	World	Copa Centroamericana	2016	2017-01-13	2017-01-22	True
+806	3250	World	OFC Nations Cup	2016	2016-06-08	2016-06-11	True
+807	3251	World	AFC Challenge Cup	2014	2013-03-02	2014-05-30	True
+808	3252	World	CONCACAF Nations League - Qualification	2018	2018-09-06	2019-03-25	True
+810	5080	 Argentina	Super Copa	2023	2023-03-01	2023-03-01	True
+825	5035	 Qatar	Qatar Cup	2022	2023-02-09	2023-04-06	True
+826	4965	 Saudi-Arabia	Super Cup	2023	2023-01-26	2023-01-29	True
+842	4893	Uruguay	 Super Copa	2023	2023-01-29	2023-01-29	True
+848	5277	World	 UEFA Europa Conference League	2023	2023-07-12	2023-12-14	True
+849	4841	World	 Baltic Cup	2022	2022-11-16	2022-11-19	True
+853	5018	 Ecuador	 Supercopa de Ecuador	2022	2023-02-11	2023-02-11	True
+856	5431	World	 CONCACAF Caribbean Club Championship	2023	2023-08-23	2023-12-05	True
+857	5218	Mexico	 Campeón de Campeones	2023	2023-06-25	2023-06-25	True
+860	3639	World	Arab Cup	2021	2021-06-19	2021-12-18	True
+866	5162	USA	MLS All-Star	2023	2023-07-19	2023-07-19	True
+880	3904	World	World Cup - Women - Qualification Europe	2021	2021-09-16	2022-10-11	True
+881	3905	World	Olympics Men - Qualification Concacaf	2020	2019-07-17	2021-03-31	True
+882	5084	World	Olympics Women - Qualification Asia	2024	2023-04-01	2023-11-01	True
+885	5325	World	Campeones Cup	2023	2023-09-28	2023-09-28	True
+897	4105	World	Asian Cup Women	2022	2022-01-20	2022-02-06	True
+899	4955	 Finland	 League Cup	2023	2023-01-21	2023-04-01	True
+907	5069	Cuba	Primera Division	2023	2023-02-11	2023-06-17	True
+922	4393	World	Africa Cup of Nations - Women	2022	2022-07-02	2022-07-23	True
+926	4414	World	Copa America Femenina	2022	2022-07-08	2022-07-31	True
+937	5273	World	Emirates Cup	2023	2023-08-02	2023-08-02	True
+941	4691	World	Islamic Solidarity Games	2022	2022-08-08	2022-08-16	True
+945	4765	World	International Champions Cup - Women	2022	2022-08-18	2022-08-21	True
+947	5331	 Germany	 DFB Pokal - Women	2023	2023-08-12	2023-11-25	True
+949	5784	World	 CONMEBOL Libertadores Femenina	2023	2023-10-05	2023-10-21	True
+960	4940	World	Euro Championship - Qualification	2023	2023-03-23	2023-11-21	True
+1032	5708	 Argentina	 Copa de la Liga Profesional	2023	2023-08-17	2023-11-26	True
+1038	5751	World	King's Cup	2023	2023-09-07	2023-09-10	True
+1039	5758	World	Premier League International Cup	2023	2023-08-22	2024-01-24	True
+1040	5764	World	UEFA Nations League - Women	2023	2023-09-21	2023-12-05	True
+1043	5808	World	African Football League	2023	2023-10-20	2023-11-11	True
