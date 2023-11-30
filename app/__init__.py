@@ -28,7 +28,6 @@ container_name = app.config["AZURE_CONTAINER_NAME"]
 blob_service_client = BlobServiceClient(account_url=f"https://{storage_account_name}.blob.core.windows.net", credential=storage_account_key)
 container_client = blob_service_client.get_container_client(container_name)
 
-
 app.config['CACHE_TYPE'] = 'simple'  # Use a simple in-memory cache
 cache = Cache(app)
 
@@ -84,12 +83,17 @@ routes_list = [
 ]
 
 for route in routes_list:
-  app.register_blueprint(route)
+    app.register_blueprint(route)
 
 db.init_app(app)
 # seed_database(app)
 
 # engine = create_engine(db_url)
 
+# development run command
+# if __name__ == '__main__':
+#     app.run(port=5000, debug=True)
+
+# production run command - Use gunicorn as the production server
 if __name__ == '__main__':
-    app.run(port=5000, debug=True)
+    app.run(host='0.0.0.0', port=80)
