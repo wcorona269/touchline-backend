@@ -23,7 +23,6 @@ app.config.from_object(Config)
 storage_account_name = app.config["AZURE_STORAGE_ACCOUNT_NAME"]
 storage_account_key = app.config["AZURE_STORAGE_ACCOUNT_KEY"]
 container_name = app.config["AZURE_CONTAINER_NAME"]
-
 # Use these values when establishing a connection to Azure Storage
 blob_service_client = BlobServiceClient(account_url=f"https://{storage_account_name}.blob.core.windows.net", credential=storage_account_key)
 container_client = blob_service_client.get_container_client(container_name)
@@ -91,9 +90,4 @@ for route in routes_list:
 
 db.init_app(app)
 # seed_database(app)
-
 # engine = create_engine(db_url)
-
-# production run command - Use waitress as the production server
-if __name__ == '__main__':
-    serve(app, host='0.0.0.0', port=8000)
