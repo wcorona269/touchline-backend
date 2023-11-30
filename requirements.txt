@@ -18,6 +18,7 @@ bcrypt==4.1.1 ; python_version >= '3.7'
 beautifulsoup4==4.12.2 ; python_full_version >= '3.6.0'
 blinker==1.7.0 ; python_version >= '3.8'
 bs4==0.0.1
+cachelib==0.9.0 ; python_version >= '3.7'
 certifi==2023.11.17 ; python_version >= '3.6'
 cffi==1.16.0 ; python_version >= '3.8'
 charset-normalizer==3.3.2 ; python_full_version >= '3.7.0'
@@ -30,6 +31,7 @@ feedfinder2==0.0.4
 feedparser==6.0.10 ; python_version >= '3.6'
 filelock==3.13.1 ; python_version >= '3.8'
 flask-bcrypt==1.0.1
+flask-caching==2.1.0
 flask-cors==4.0.0
 flask-jwt-extended==3.18.0
 flask-jwt==0.3.2
