@@ -58,12 +58,13 @@ jobs:
 
       - name: Unzip artifact for deployment
         run: unzip release.zip
-
       
+      - name: Activate virtual environment
+        run: source venv/bin/activate
+
       - name: 'Deploy to Azure Web App'
         uses: azure/webapps-deploy@v2
         id: deploy-to-webapp
         with:
           app-name: 'touchline-api'
-          slot-name: 'Production'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_A3D360CBAE2C426D96ABB5E02F5FFC41 }}
