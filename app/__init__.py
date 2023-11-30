@@ -1,12 +1,12 @@
 from flask import Flask, jsonify, request
 from flask_caching import Cache
-from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_jwt_extended import JWTManager
 from sqlalchemy import create_engine
 from .config import Config
 from azure.storage.blob import BlobServiceClient
 from .models import User
+from waitress import serve
 from app import routes
 from flask_cors import CORS
 from .models.db import db
@@ -94,10 +94,6 @@ db.init_app(app)
 
 # engine = create_engine(db_url)
 
-# development run command
-# if __name__ == '__main__':
-#     app.run(port=5000, debug=True)
-
-# production run command - Use gunicorn as the production server
+# production run command - Use waitress as the production server
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=80)
+    serve(app, host='0.0.0.0', port=8000)

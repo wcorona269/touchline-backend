@@ -21,6 +21,7 @@ newspaper3k = "*"
 requests-html = "*"
 googlenews = "*"
 azure-storage-blob = "*"
+waitress = "*"
 
 [dev-packages]
 

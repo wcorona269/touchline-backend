@@ -8,6 +8,7 @@ bp = Blueprint('news', __name__, url_prefix='/news')
 def fetchNews():
     try:
         fav_names = request.json.get('favNames', []) if request.json else []
+        fav_names = []
         gNews = GoogleNews(period='10d')
         num_to_select = min(len(fav_names), 3)
         random_faves = random.sample(fav_names, num_to_select)
@@ -32,7 +33,10 @@ def fetchNews():
             cleaned_article = {key: value for key, 
                             value in article.items() if key != 'datetime'}
             cleaned_news.append(cleaned_article)
-        return cleaned_news;
+        return jsonify({
+            'message': 'News fetched successfully',
+            'news': cleaned_news,
+        }), 201
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
@@ -62,6 +66,6 @@ def fetchTopNews():
         return jsonify({
             'message': 'News fetched successfully',
             'news': cleaned_news,
-        })
+        }), 201
     except Exception as e:
         return jsonify({'error': str(e)}), 500
