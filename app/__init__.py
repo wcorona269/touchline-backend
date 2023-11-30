@@ -31,6 +31,10 @@ container_client = blob_service_client.get_container_client(container_name)
 app.config['CACHE_TYPE'] = 'simple'  # Use a simple in-memory cache
 cache = Cache(app)
 
+@app.route('/')
+def index():
+    return '<h1>Hello World </h1>'
+
 @app.route('/api/config')
 @cache.cached(timeout=3600)
 def get_config():
