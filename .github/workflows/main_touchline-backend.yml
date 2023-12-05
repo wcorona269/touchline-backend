@@ -59,6 +59,10 @@ jobs:
       - name: Unzip artifact for deployment
         run: unzip release.zip
 
+      - name: Run the application
+        run: |
+          source venv/bin/activate
+          pip install -r requirements.txt
       
       - name: 'Deploy to Azure Web App'
         uses: azure/webapps-deploy@v2
