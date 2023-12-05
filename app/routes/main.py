@@ -3,7 +3,7 @@ from flask import Blueprint, redirect, jsonify
 from ..models import User, Favorite
 import requests
 
-bp = Blueprint('home', __name__)
+bp = Blueprint('home', __name__, url_prefix='/home')
 
 @bp.route('/')
 def home():
