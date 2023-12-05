@@ -33,7 +33,7 @@ filelock==3.13.1 ; python_version >= '3.8'
 flask-bcrypt==1.0.1
 flask-caching==2.1.0
 flask-cors==4.0.0
-flask-jwt-extended==3.18.0
+flask-jwt-extended==4.0.0
 flask-jwt==0.3.2
 flask-login==0.6.3
 flask-migrate==4.0.5
