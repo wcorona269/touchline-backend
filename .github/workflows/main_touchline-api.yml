@@ -62,6 +62,9 @@ jobs:
       - name: Activate virtual environment
         run: source venv/bin/activate
 
+      - name: Run the application
+        run: python run.py
+        
       - name: 'Deploy to Azure Web App'
         uses: azure/webapps-deploy@v2
         id: deploy-to-webapp
