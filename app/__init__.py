@@ -37,7 +37,7 @@ def index():
 @app.route('/api/config')
 @cache.cached(timeout=3600)
 def get_config():
-    api_key = os.environ.get('API_KEY')
+    api_key = os.getenv('API_KEY')
     return jsonify({'api_key': api_key})
 
 @app.route('/protected', methods=['GET'])
@@ -47,8 +47,7 @@ def protected_route():
         try:
             # Decode the access token from the cookie
             decoded_token = jwt.decode(
-            access_token_cookie, app.config['SECRET_KEY'], algorithms=['HS256'])
-            username = decoded_token.get('username')
+            access_token_cookie, os.getenv('SECRET_KEY'), algorithms=['HS256'])
             id = decoded_token.get('id')
             user_instance = User.query.get(id)
             user_info = user_instance.to_dict()
