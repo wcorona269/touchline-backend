@@ -43,7 +43,6 @@ def get_config():
 @app.route('/protected', methods=['GET'])
 def protected_route():
     access_token_cookie = request.cookies.get('access_token')
-    print(access_token_cookie)
     if access_token_cookie:
         try:
             # Decode the access token from the cookie
@@ -56,7 +55,6 @@ def protected_route():
             # Authentication successful, respond with data from the protected endpoint
             return jsonify({
                 'user': user_info,
-                'cookie': access_token_cookie
             }), 200
         except jwt.ExpiredSignatureError:
             # Token has expired, respond with unauthorized status code
@@ -90,5 +88,5 @@ for route in routes_list:
     app.register_blueprint(route)
 
 db.init_app(app)
-# seed_database(app)
+seed_database(app)
 # engine = create_engine(db_url)

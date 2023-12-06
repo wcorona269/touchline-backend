@@ -70,20 +70,10 @@ def seed_database(app):
             db.session.add(new_notification)
         db.session.commit()
         
-        # create reposts and favorites
+        # create favorites
         for sender_id in user_ids:
-            target_post = random.choice(Post.query.all())
-            for _ in range(random.randint(0, 10)):
-                # create repost
-                new_repost = Repost(user_id=sender_id, post_id=target_post.id)
-                db.session.add(new_repost)
-                # create repost notification
-                notif = Notification(sender_id=sender_id, recipient_id=comment.user_id, target_id=target_post.id, target_type=NotificationType.REPOST)
-                db.session.add(notif)
-        
             for favorite in favorite_seeds:
                 new_fav = Favorite(user_id=sender_id, name=favorite[0], target_type=favorite[1], target_id=favorite[2])
                 db.session.add(new_fav)
-        
         
         db.session.commit()
