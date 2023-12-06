@@ -6,11 +6,11 @@ from sqlalchemy import create_engine
 from .config import Config
 from azure.storage.blob import BlobServiceClient
 from .models import User
-from waitress import serve
 from app import routes
 from flask_cors import CORS
 from .models.db import db
 from database import seed_database
+import logging
 import os
 import jwt
 
@@ -43,6 +43,7 @@ def get_config():
 @app.route('/protected', methods=['GET'])
 def protected_route():
     access_token_cookie = request.cookies.get('access_token')
+    logging.info(f'Access Token Cookie: {access_token_cookie}')
     if access_token_cookie:
         try:
             # Decode the access token from the cookie
