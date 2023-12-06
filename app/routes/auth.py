@@ -34,8 +34,8 @@ def login():
   if status == True:
     token = jwt.encode({'email': email, 'username': message['username'], 'id': message['id'], 'exp': datetime.datetime.utcnow() + datetime.timedelta(hours=6)}, Config.SECRET_KEY, algorithm='HS256')
     response = make_response(jsonify({'message': 'Login successful'}))
-    response.set_cookie('access_token', token, httponly=True, secure=True, samesite='Lax')
-    response.headers.add('Set-Cookie','cross-site-cookie=bar; SameSite=None; Secure')
+    response.set_cookie('access_token', token, httponly=True, secure=True, samesite='Strict')
+    response.headers.add('Set-Cookie','cross-site-cookie=bar; SameSite=Strict; Secure')
     return response, 200
   else:
     return jsonify({
