@@ -89,11 +89,7 @@ class User(UserMixin, db.Model):
 		if not user or not user.check_password(password):
 			return False, None
 		else:
-			user_data = {
-				'id': user.id,
-				'email': user.email,
-				'username': user.username
-			}
+			user_data = user.to_dict()
 			return True, user_data
 
   # Register User

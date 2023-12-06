@@ -43,7 +43,7 @@ def get_config():
 @app.route('/protected', methods=['GET'])
 def protected_route():
     access_token_cookie = request.cookies.get('access_token')
-    logging.info(f'Access Token Cookie: {access_token_cookie}')
+    print(access_token_cookie)
     if access_token_cookie:
         try:
             # Decode the access token from the cookie
@@ -55,7 +55,8 @@ def protected_route():
 
             # Authentication successful, respond with data from the protected endpoint
             return jsonify({
-                'user': user_info
+                'user': user_info,
+                'cookie': access_token_cookie
             }), 200
         except jwt.ExpiredSignatureError:
             # Token has expired, respond with unauthorized status code
