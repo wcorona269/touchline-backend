@@ -7,6 +7,8 @@ bp = Blueprint('home', __name__, url_prefix='/home')
 
 @bp.route('/')
 def home():
-    users = User.query.order_by(User.id).all()
-    favorites = Favorite.query.order_by(Favorite.user_id).all()    
-    return f'{users}, {favorites}'
+    user = User.query.order_by(User.id).first()
+    return jsonify({
+        'message': 'home',
+        'user': user.to_dict()
+    })
