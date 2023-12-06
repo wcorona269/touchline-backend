@@ -4,7 +4,6 @@ from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identi
 import jwt
 from ..config import Config
 import datetime
-from datetime import timedelta
 
 bp = Blueprint('auth', __name__, url_prefix='/auth')
 
@@ -35,7 +34,8 @@ def login():
   if status == True:
     token = jwt.encode({'email': email, 'username': message['username'], 'id': message['id'], 'exp': datetime.datetime.utcnow() + datetime.timedelta(hours=6)}, Config.SECRET_KEY, algorithm='HS256')
     response = make_response(jsonify({'message': 'Login successful'}))
-    response.set_cookie('access_token', token, httponly=True, secure=True)
+    response.set_cookie('access_token', token, httponly=True, secure=True, samesite='Lax')
+    response.headers.add('Set-Cookie','cross-site-cookie=bar; SameSite=None; Secure')
     return response, 200
   else:
     return jsonify({
@@ -45,7 +45,7 @@ def login():
 @bp.route('/logout', methods=['POST'])
 def logout():
   response = make_response(jsonify({'message': 'Logout successful'}))
-  response.set_cookie('access_token', '', expires=0, httponly=True, secure=True, samesite=True)
+  response.set_cookie('access_token', '', expires=0, httponly=True, secure=True)
   return response, 200
 
 @bp.route('/update/', methods=['POST'])
