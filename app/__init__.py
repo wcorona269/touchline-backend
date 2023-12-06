@@ -17,7 +17,7 @@ import jwt
 app = Flask(__name__)
 migrate = Migrate(app, db)
 jwt_manager = JWTManager(app)
-CORS(app)
+CORS(app, supports_credentials=True)
 app.config.from_object(Config)
 # Access Azure Storage configuration
 storage_account_name = app.config["AZURE_STORAGE_ACCOUNT_NAME"]
@@ -89,5 +89,5 @@ for route in routes_list:
     app.register_blueprint(route)
 
 db.init_app(app)
-seed_database(app)
+# seed_database(app)
 # engine = create_engine(db_url)
