@@ -6,7 +6,6 @@ from ..config import Config
 import datetime
 from datetime import timedelta
 
-
 bp = Blueprint('auth', __name__, url_prefix='/auth')
 
 # Create a set of revoked session tokens
@@ -46,7 +45,7 @@ def login():
 @bp.route('/logout', methods=['POST'])
 def logout():
   response = make_response(jsonify({'message': 'Logout successful'}))
-  response.set_cookie('access_token', '', expires=0, httponly=True, secure=True)
+  response.set_cookie('access_token', '', expires=0, httponly=True, secure=True, samesite=True)
   return response, 200
 
 @bp.route('/update/', methods=['POST'])
