@@ -1,5 +1,5 @@
 from flask_login import UserMixin, login_user, login_required
-from sqlalchemy import CheckConstraint
+from sqlalchemy import CheckConstraint, func
 from datetime import timedelta
 from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity
 from .db import db, bcrypt
@@ -15,12 +15,10 @@ class User(UserMixin, db.Model):
     # table columns
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(64), index=True, unique=True, nullable=False)
-    bio = db.Column(db.String(200), default='', nullable=False)
-    email = db.Column(db.String(120), unique=True, nullable=False)
     password_hash = db.Column(db.String(255), nullable=False)
     created_at = db.Column(db.DateTime, default=local_time, nullable=False)
+    bio = db.Column(db.String(200), default='', nullable=True)
     avatar_url = db.Column(db.String(255), default='', nullable=True)
-    bio = db.Column(db.String, default='')
 
     # table relationships
     favorites = db.relationship('Favorite', back_populates='user')
@@ -33,6 +31,8 @@ class User(UserMixin, db.Model):
     # database constraints
     __table_args__ = (
             CheckConstraint("length(password_hash) >= 8", name="password_length_check"),
+            CheckConstraint("username ~ '^[a-zA-Z0-9_]{1,64}$'", name="handle_constraint"),
+            CheckConstraint(func.char_length(username) >= 4, name="min_username_length_constraint"),
     )
 
     # getter methods
@@ -72,19 +72,11 @@ class User(UserMixin, db.Model):
         return bcrypt.check_password_hash(self.password_hash, password)
 
     @staticmethod
-    def find_user_by_email(email):
-        user = User.query.filter_by(email=email).first();
-        if user:
-            return user['username']
-        else:
-            return 'User not found'
-
-    @staticmethod
-    def login_user(email, password):
-        if not email or not password:
+    def login_user(username, password):
+        if not username or not password:
             return False, None
 
-        user = User.query.filter_by(email=email).first()
+        user = User.query.filter_by(username=username).first()
 
         if not user or not user.check_password(password):
             return False, None
@@ -94,17 +86,14 @@ class User(UserMixin, db.Model):
 
     # Register User
     @staticmethod
-    def register_user(email, username, password):
-        if not username or not email or not password:
+    def register_user(username, password):
+        if not username or not password:
             return False
         
         if User.query.filter_by(username=username).first():
             return False
 
-        if User.query.filter_by(email=email).first():
-            return False
-
-        user = User(username=username, email=email)
+        user = User(username=username)
         user.set_password(password)
         db.session.add(user)
         db.session.commit()
@@ -112,32 +101,28 @@ class User(UserMixin, db.Model):
         return True
 
     @staticmethod
-    def update_user(username, password):
+    def update_user(username, password, bio):
         user = User.query.filter_by(username=username).first()
         if user:
-            if password:
+            if password and len(password) >= 8:
                 user.set_password(password)
                 db.session.commit()
-                return True;
-            # if bio:
-            # 	user.set_bio(bio)
-            # 	db.session.commit()
-            # 	return True
+            if bio and (0 < len(bio) < 200):
+                user.bio = bio
+                db.session.commit()
+            return True, user
         else:
-            return False;
+            return False, None
 
     def to_dict(self):
-        timestamp = datetime.now().strftime("%Y%m%d%H%M%S")
-        timestamped_url = f"{self.avatar_url}?t={timestamp}"
         return {
             'id': self.id, 
             'username': self.username,
-            'email': self.email,
             'bio': self.bio,
-            'avatar_url': timestamped_url,
+            'avatar_url': self.avatar_url,
             'favorites': [favorite.to_dict() for favorite in self.favorites]
         }
 
     # Print user object
     def __repr__(self):
-        return f"User('{self.username}', '{self.email}')"
+        return f"User('{self.username}')"

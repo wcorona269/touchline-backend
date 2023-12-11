@@ -13,10 +13,9 @@ def seed_database(app):
         # create users
         for user in user_seeds:
             username = user[0]
-            email = user[1]
-            bio = user[2]
-            avatar_url = user[3]
-            new_user = User(username=username, email=email, bio=bio, avatar_url=avatar_url)
+            bio = user[1]
+            avatar_url = user[2]
+            new_user = User(username=username, bio=bio, avatar_url=avatar_url)
             new_user.set_password('touchline123')
             db.session.add(new_user)
         

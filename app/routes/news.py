@@ -17,13 +17,12 @@ def fetchNews():
                 'soccer transfer news',
                 'BBC sport football',
                 'ESPN FC',
-                'Marca',
             ]
         
         news_articles = []
         for topic in topics:
             gNews.clear()
-            gNews.search(topic)
+            gNews.get_news(topic)
             result = gNews.results(sort=True)
             news_articles.extend(result)
             
@@ -48,7 +47,8 @@ def fetchTopNews():
         gNews.set_period('7d')
         news_articles = []
         # gNews.clear()
-        gNews.search('soccer news')
+        print(gNews.getVersion())
+        gNews.get_news('soccer news')
         result = gNews.results()
         news_articles.extend(result)
         max_articles = 10

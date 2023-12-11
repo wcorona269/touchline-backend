@@ -14,10 +14,9 @@ revoked_tokens = set()
 def register():
   data = request.json
   username = data.get('username')
-  email = data.get('email')
   password = data.get('password')
   
-  new_user = User.register_user(email, username, password)
+  new_user = User.register_user(username, password)
   
   if new_user == True:
     return jsonify({'message': 'User Created Successfully'}), 200
@@ -27,12 +26,12 @@ def register():
 @bp.route('/login', methods=['POST'])
 def login():
   data = request.json
-  email = data.get('email')
+  username = data.get('username')
   password = data.get('password')
   
-  status, user = User.login_user(email, password)
+  status, user = User.login_user(username, password)
   if status == True:
-    token = jwt.encode({'email': email, 'username': user['username'], 'id': user['id'], 'exp': datetime.datetime.utcnow() + datetime.timedelta(hours=6)}, Config.SECRET_KEY, algorithm='HS256')
+    token = jwt.encode({'username': user['username'], 'id': user['id'], 'exp': datetime.datetime.utcnow() + datetime.timedelta(hours=6)}, Config.SECRET_KEY, algorithm='HS256')
     response = make_response(jsonify({
       'message': 'Login successful',
       'user': user
@@ -56,11 +55,13 @@ def update_user():
     data = request.json;
     username = data.get('username')
     password = data.get('password')
-    bio = data.get('password')
-    result = User.update_user(username, password)
+    bio = data.get('bio')
+    result = User.update_user(username, password, bio)
     if result:
+      user = User.query.filter_by(username=username).first()
       return jsonify({
-        'message': 'user updated successfully'
+        'message': 'user updated successfully',
+        'user': user.to_dict()
       }), 201
     else:
       return jsonify({

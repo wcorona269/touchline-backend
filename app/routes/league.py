@@ -90,7 +90,7 @@ def competitionInfo(leagueId, season):
     name = standings_data[0]['league']['name']
     news_topic = f'{country} {name}'
     gNews = GoogleNews(period='20d')
-    gNews.search(news_topic)
+    gNews.get_news(news_topic)
     competition_news = gNews.results()
 
     cleaned_news = []

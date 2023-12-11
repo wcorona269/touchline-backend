@@ -88,4 +88,5 @@ for route in routes_list:
     app.register_blueprint(route)
 
 db.init_app(app)
+# seed_database(app)
 # engine = create_engine(db_url)
