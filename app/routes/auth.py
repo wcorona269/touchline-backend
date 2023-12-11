@@ -56,13 +56,13 @@ def update_user():
     username = data.get('username')
     password = data.get('password')
     bio = data.get('bio')
-    result = User.update_user(username, password, bio)
+    result, user = User.update_user(username, password, bio)
     if result:
-      user = User.query.filter_by(username=username).first()
+      user_info = user.to_dict()
       return jsonify({
         'message': 'user updated successfully',
-        'user': user.to_dict()
-      }), 201
+        'user': user_info
+      }), 200
     else:
       return jsonify({
         'message': 'User update failed'
