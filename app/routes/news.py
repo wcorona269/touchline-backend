@@ -22,7 +22,7 @@ def fetchNews():
         news_articles = []
         for topic in topics:
             gNews.clear()
-            gNews.get_news(topic)
+            gNews.search(topic)
             result = gNews.results(sort=True)
             news_articles.extend(result)
             
@@ -48,7 +48,7 @@ def fetchTopNews():
         news_articles = []
         # gNews.clear()
         print(gNews.getVersion())
-        gNews.get_news('soccer news')
+        gNews.search('soccer news')
         result = gNews.results()
         news_articles.extend(result)
         max_articles = 10

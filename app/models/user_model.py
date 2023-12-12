@@ -1,5 +1,6 @@
 from flask_login import UserMixin, login_user, login_required
 from sqlalchemy import CheckConstraint, func
+from sqlalchemy.exc import IntegrityError
 from datetime import timedelta
 from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identity
 from .db import db, bcrypt
@@ -33,13 +34,8 @@ class User(UserMixin, db.Model):
             CheckConstraint(func.char_length(username) >= 4, name="min_username_length_constraint"),
     )
 
-    # getter methods
-    def get_id(self):
-        return str(self.id)
-
     def user_info(self, user_id):
         user = User.query.filter_by(id=user_id).first()
-        
         if user:
             return user.username
         else:
@@ -72,12 +68,13 @@ class User(UserMixin, db.Model):
     @staticmethod
     def login_user(username, password):
         if not username or not password:
-            return False, None
-
+            return False, 'All fields must be filled out'
+        
         user = User.query.filter_by(username=username).first()
-
-        if not user or not user.check_password(password):
-            return False, None
+        if not user:
+            return False, 'User not found'
+        if not user.check_password(password):
+            return False, 'Incorrect password'
         else:
             user_data = user.to_dict()
             return True, user_data
@@ -85,19 +82,29 @@ class User(UserMixin, db.Model):
     # Register User
     @staticmethod
     def register_user(username, password):
-        if not username or not password:
-            return False
-        
-        if User.query.filter_by(username=username).first():
-            return False
-
-        user = User(username=username)
-        user.set_password(password)
-        db.session.add(user)
-        db.session.commit()
-
-        return True
-
+        try:
+            user = User(username=username)
+            user.set_password(password)
+            db.session.add(user)
+            db.session.commit()
+            return True, user
+        except IntegrityError as e:
+            db.session.rollback()
+            error_info = str(e.orig)
+            print(error_info)
+            error_messages = {
+                    "unique constraint": "Username is already taken. Please choose another one.",
+                    "password_length_check": "Password must be at least 8 characters long.",
+                    "handle_constraint": "Username can only contain letters, numbers, and underscores.",
+                    "min_username_length_constraint": "Username must be at least 4 characters long.",
+            }
+            
+            for error_key, user_message in error_messages.items():
+                if error_key in error_info:
+                    return False, user_message
+            
+            return False, 'Unknown error occcured. Please try again.'
+    
     @staticmethod
     def update_user(username, password, bio):
         user = User.query.filter_by(username=username).first()

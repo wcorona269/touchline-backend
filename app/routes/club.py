@@ -69,7 +69,7 @@ def club_info(clubId, season):
     # get club news
     club_name = club_info[0]['team']['name']
     gNews = GoogleNews(period='20d')
-    gNews.get_news(club_name)
+    gNews.search(club_name)
     competition_news = gNews.results()
     cleaned_news = []
     for article in competition_news:

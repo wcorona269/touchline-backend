@@ -36,6 +36,7 @@ def update_avatar(username):
         print(str(e))
         return jsonify({'error': 'Failed to upload file'}), 500
 
+
 @bp.route('/info/<username>', methods=['GET'])
 def get_user_info(username):
     result, user = User.get_user_info(username)
@@ -48,3 +49,21 @@ def get_user_info(username):
         return jsonify({
             'message': 'Invalid request data'
         }), 404
+
+@bp.route('/update', methods=['PATCH'])
+def update_user():
+    data = request.json;
+    username = data.get('username')
+    password = data.get('password')
+    bio = data.get('bio')
+    result, user = User.update_user(username, password, bio)
+    if result:
+      user_info = user.to_dict()
+      return jsonify({
+        'message': 'user updated successfully',
+        'user': user_info
+      }), 200
+    else:
+      return jsonify({
+        'error': 'User update failed'
+      }), 500
