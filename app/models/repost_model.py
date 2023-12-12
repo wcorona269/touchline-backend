@@ -6,8 +6,7 @@ from datetime import datetime, timezone, timedelta
 class Repost(db.Model):
   __tablename__ = 'reposts'
   
-  server_timezone_offset = -5
-  local_time = datetime.now(timezone.utc) + timedelta(hours=server_timezone_offset)
+  local_time = datetime.now(timezone.utc)
   # repost table columns
   id = db.Column(db.Integer, primary_key=True, nullable=False)
   user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)

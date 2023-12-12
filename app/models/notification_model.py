@@ -12,8 +12,7 @@ class NotificationType(Enum):
 class Notification(db.Model):
 	__tablename__ = 'notifications'
  
-	server_timezone_offset = -5
-	local_time = datetime.now(timezone.utc) + timedelta(hours=server_timezone_offset)
+	local_time = datetime.now(timezone.utc)
 	id = db.Column(db.Integer, primary_key=True)
 	sender_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
 	recipient_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)

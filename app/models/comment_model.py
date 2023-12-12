@@ -5,8 +5,7 @@ from .db import db
 class Comment(db.Model):
 	__tablename__ = 'comments'
  
-	server_timezone_offset = -5
-	local_time = datetime.now(timezone.utc) + timedelta(0)
+	local_time = datetime.now(timezone.utc)
 	id = db.Column(db.Integer, primary_key=True, index=True, nullable=False)
 	user_id = db.Column(db.Integer, db.ForeignKey('users.id'), index=True, nullable=False)
 	post_id = db.Column(db.Integer, db.ForeignKey('posts.id'), index=True, nullable=False)  # Define foreign key to 'posts.id'

@@ -6,8 +6,7 @@ from datetime import datetime, timezone, timedelta
 class Post(db.Model):
   __tablename__ = 'posts'
   
-  server_timezone_offset = -5
-  local_time = datetime.now(timezone.utc) + timedelta(hours=server_timezone_offset)
+  local_time = datetime.now(timezone.utc)
   # posts table columns
   id = db.Column(db.Integer, primary_key=True, index=True, nullable=False)
   text = db.Column(db.String(200), nullable=False)

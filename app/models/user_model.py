@@ -9,9 +9,7 @@ from datetime import datetime, timezone, timedelta
 class User(UserMixin, db.Model):
     __tablename__ = 'users'
  
-    server_timezone_offset = -5
-    local_time = datetime.now(timezone.utc) + timedelta(hours=server_timezone_offset)
-
+    local_time = datetime.now(timezone.utc)
     # table columns
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(64), index=True, unique=True, nullable=False)
