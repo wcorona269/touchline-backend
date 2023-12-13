@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "30cda294c3ecef00b53ef264cbbf52e97ceb4eee51622637861bce9fd9f1ebfb"
+            "sha256": "1f95e793d72d6f1ffbebcc51112c97feb85fdd3dbc98397ae1210c4a646cb5b9"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -360,11 +360,11 @@
         },
         "googlenews": {
             "hashes": [
-                "sha256:98ff5f12f977e6e55aa9cac58dc781d3d717b52ac6a1cd11832f3aa95f6949c8",
-                "sha256:bb78861316a8e1853b2144f317e87fb8b64d0cd1e9b147c184bbb43bf61234a2"
+                "sha256:1dc0daaa2dfceeb74c9e2ddbf656b760ac93c987b07df796cd21518b178adb4e",
+                "sha256:24d3a5411f1fea292e1e7cd8633af8432ee1b38450b878755edb90101bcd6fca"
             ],
             "index": "pypi",
-            "version": "==1.6.11"
+            "version": "==1.6.12"
         },
         "greenlet": {
             "hashes": [

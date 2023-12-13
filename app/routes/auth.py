@@ -44,7 +44,6 @@ def login():
         # response.headers.add('Set-Cookie','cross-site-cookie=bar; SameSite=Strict; Secure')
         return response, 200
     else:
-        print(info)
         return jsonify({
                 'message': info
         }), 401

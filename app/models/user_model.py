@@ -49,6 +49,7 @@ class User(UserMixin, db.Model):
                     'username': user.username,
                     'posts': [post.to_dict() for post in user.posts],
                     'reposts': [repost.to_dict() for repost in user.reposts],
+                    'likes': [like.post.to_dict() for like in user.likes],
                     'bio': user.bio,
                     'avatar_url': user.avatar_url,
                     'created_at': user.created_at.strftime('%Y-%m-%d %H:%M:%S'),
