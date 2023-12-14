@@ -44,12 +44,17 @@ class User(UserMixin, db.Model):
     @staticmethod
     def get_user_info(username):
         user = User.query.filter_by(username=username).first()
+        
+        normalized_posts = { post.id: post.to_dict() for post in user.posts }
+        normalized_reposts = { repost.id: repost.to_dict() for repost in user.reposts }
+        normalized_likes = { like.id: like.post.to_dict() for like in user.likes }
+        
         if user:
             return True, {
                     'username': user.username,
-                    'posts': [post.to_dict() for post in user.posts],
-                    'reposts': [repost.to_dict() for repost in user.reposts],
-                    'likes': [like.post.to_dict() for like in user.likes],
+                    'posts': normalized_posts,
+                    'reposts': normalized_reposts,
+                    'likes': normalized_likes,
                     'bio': user.bio,
                     'avatar_url': user.avatar_url,
                     'created_at': user.created_at.strftime('%Y-%m-%d %H:%M:%S'),

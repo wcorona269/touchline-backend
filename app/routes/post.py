@@ -24,7 +24,6 @@ def create_post():
 
 @bp.route('/delete/<postId>', methods=['DELETE'])
 def delete_post(postId):
-    print(postId)
     message = Post.delete_post(postId)
     if message == True:
         return jsonify({

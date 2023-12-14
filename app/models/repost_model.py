@@ -15,6 +15,7 @@ class Repost(db.Model):
   # relationships
   user = db.relationship('User', backref='reposts', lazy='joined')
   post = db.relationship('Post', back_populates='reposts', lazy='joined')
+  # notifications = db.relationship('Notification', back_populates='repost', cascade='all, delete-orphan')
   
   @staticmethod
   def add_repost(user_id, post_id):
