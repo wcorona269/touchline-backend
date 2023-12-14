@@ -18,6 +18,11 @@ class Post(db.Model):
   comments = db.relationship('Comment', back_populates='post')
   reposts = db.relationship('Repost', back_populates='post')
   
+  likes = db.relationship('PostLike', back_populates='post', cascade='all, delete-orphan')
+  comments = db.relationship('Comment', back_populates='post', cascade='all, delete-orphan')
+  reposts = db.relationship('Repost', back_populates='post', cascade='all, delete-orphan')
+
+  
   def delete_post(id):
     try:
       post_to_delete = Post.query.get(id)

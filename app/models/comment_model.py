@@ -18,7 +18,7 @@ class Comment(db.Model):
 	post = db.relationship('Post', back_populates='comments', foreign_keys=[post_id])
 	parent_comment = db.relationship('Comment', remote_side=[id], back_populates='replies')
 	replies = db.relationship('Comment', back_populates='parent_comment')
-	comment_likes = db.relationship('CommentLike', back_populates='comment')
+	comment_likes = db.relationship('CommentLike', back_populates='comment_likes_relation', cascade='all, delete-orphan')
 
 	def to_dict(self):
 		user_instance = User.query.get(self.user_id)

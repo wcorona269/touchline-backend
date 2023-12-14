@@ -41,7 +41,7 @@ class CommentLike(db.Model):
 	id = db.Column(db.Integer, primary_key=True, index=True, nullable=False)
 	user_id = db.Column(db.Integer, db.ForeignKey('users.id'), index=True, nullable=False)
 	comment_id = db.Column(db.Integer, db.ForeignKey('comments.id'), index=True, nullable=False)
-	comment = db.relationship('Comment', back_populates='comment_likes')
+	comment_likes_relation = db.relationship('Comment', back_populates='comment_likes')
 
 	def add_like(user_id, comment_id):
 		new_like = CommentLike(user_id=user_id, comment_id=comment_id)
