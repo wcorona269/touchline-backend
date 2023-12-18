@@ -3,7 +3,6 @@ from ..models import db, User
 from azure.storage.blob import BlobServiceClient
 from datetime import datetime
 import os
-
 bp = Blueprint('users', __name__, url_prefix='/users')
 
 @bp.route('/update-avatar/<username>', methods=['POST'])
