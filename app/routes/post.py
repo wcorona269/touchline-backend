@@ -12,15 +12,24 @@ def create_post():
 
     if not text:
         return jsonify({'message': 'Missing required text field'}), 400
+    
+    if len(text > 200):
+        return jsonify({
+            'message': 'post creation failed',
+            'error': 'Post length too long'
+        }), 400
 
-    post = Post(user_id=user_id, text=text)
-    db.session.add(post)
-    db.session.commit()
-
-    return jsonify({
-        'message': 'Post created successfully',
-        'post': post.to_dict()
-    }), 201
+    success, data = Post.create_post(user_id, text)
+    if success:
+        return jsonify({
+            'message': 'Post created successfully',
+            'post': data
+        }), 201
+    else:
+        return jsonify({
+            'message': 'Post creation failed',
+            'error': data
+        })
 
 @bp.route('/delete/<postId>', methods=['DELETE'])
 def delete_post(postId):
