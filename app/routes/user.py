@@ -35,7 +35,6 @@ def update_avatar(username):
         print(str(e))
         return jsonify({'error': 'Failed to upload file'}), 500
 
-
 @bp.route('/info/<username>', methods=['GET'])
 def get_user_info(username):
     result, user = User.get_user_info(username)

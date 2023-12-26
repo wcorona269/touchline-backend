@@ -1,4 +1,5 @@
 from .db import db
+from sqlalchemy import func
 from .user_model import User
 from enum import Enum
 from datetime import datetime, timezone, timedelta
@@ -12,13 +13,12 @@ class NotificationType(Enum):
 class Notification(db.Model):
     __tablename__ = 'notifications'
 
-    local_time = datetime.now(timezone.utc)
     id = db.Column(db.Integer, primary_key=True)
     sender_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     recipient_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     target_id = db.Column(db.Integer, nullable=False)  # ID of the target entity (e.g., post_id, comment_id)
     target_type = db.Column(db.Enum(NotificationType), nullable=False)  # Type of the target entity
-    created_at = db.Column(db.DateTime, default=local_time, nullable=False)
+    created_at = db.Column(db.DateTime, default=func.now(), nullable=False)
     read = db.Column(db.Boolean, nullable=False, default=False)
     sender = db.relationship('User', back_populates='notifications_sent', foreign_keys=[sender_id])
     recipient = db.relationship('User', back_populates='notifications_received', foreign_keys=[recipient_id])
@@ -29,10 +29,16 @@ class Notification(db.Model):
     # comment_like_notifications = db.relationship('Notification', cascade='all, delete-orphan', passive_deletes=True)
     # post_like_notifications = db.relationship('Notification', cascade='all, delete-orphan', passive_deletes=True)
     
-    def add_notification(recipient_id, sender_id, target_type, target_id, created_at, read):
+    def add_notification(recipient_id, sender_id, target_type, target_id):
         if sender_id == recipient_id:
             return False
-        new_notif = Notification(recipient_id=recipient_id, sender_id=sender_id, target_type=target_type, target_id=target_id, created_at=created_at, read=read)
+        new_notif = Notification(
+            recipient_id=recipient_id, 
+            sender_id=sender_id, 
+            target_type=target_type, 
+            target_id=target_id, 
+            read=False
+        )
         if new_notif:
             db.session.add(new_notif)
             db.session.commit()  

@@ -18,10 +18,8 @@ def add_notification():
   data = request.json
   recipient_id = data.get('recipient_id')
   sender_id = data.get('sender_id')
-  target_id = data.get('target_id')    
+  target_id = data.get('target_id')
   target_type_str = data['target_type']
-  read = data.get('read')
-  created_at = data.get('created_at')
   target_type = map_target_type(target_type_str)
   
   if not recipient_id or not sender_id or not target_id or not target_type:
@@ -29,13 +27,12 @@ def add_notification():
 				'message': 'Invalid request data'
     }), 400
   
-  notification = Notification.add_notification(recipient_id,
-                                               sender_id,
-                                               target_type,
-                                               target_id,
-                                               created_at,
-                                               read,
-                                               )
+  notification = Notification.add_notification(
+    recipient_id,
+    sender_id,
+    target_type,
+    target_id
+  )
   
   if notification == True:
     return jsonify({

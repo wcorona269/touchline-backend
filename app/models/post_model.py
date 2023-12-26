@@ -1,16 +1,17 @@
 from .db import db
 from .user_model import User
+from sqlalchemy import func
+from sqlalchemy.exc import IntegrityError
 from datetime import datetime, timezone, timedelta
 
 class Post(db.Model):
     __tablename__ = 'posts'
 
-    local_time = datetime.now(timezone.utc)
     # posts table columns
     id = db.Column(db.Integer, primary_key=True, index=True, nullable=False)
     text = db.Column(db.String(200), nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), index=True, nullable=False)
-    created_at = db.Column(db.DateTime, default=local_time, nullable=False)
+    created_at = db.Column(db.DateTime, default=func.now(), nullable=False)
     # relationships
     user = db.relationship('User', back_populates='posts')
     likes = db.relationship('PostLike', back_populates='post')
@@ -21,7 +22,19 @@ class Post(db.Model):
     comments = db.relationship('Comment', back_populates='post', cascade='all, delete-orphan')
     reposts = db.relationship('Repost', back_populates='post', cascade='all, delete-orphan')
     
+    @staticmethod
+    def create_post(user_id, text):
+        try:
+            post = Post(user_id=user_id, text=text)
+            db.session.add(post)
+            db.session.commit()
+            return True, post.to_dict()
+        except IntegrityError as e:
+            db.session.rollback()
+            print(f'Error creating post: {str(e)}')
+            return False, e
 
+    @staticmethod
     def delete_post(id):
         try:
             post_to_delete = Post.query.get(id)

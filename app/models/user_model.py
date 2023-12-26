@@ -9,13 +9,12 @@ from datetime import datetime, timezone, timedelta
 
 class User(UserMixin, db.Model):
     __tablename__ = 'users'
- 
-    local_time = datetime.now(timezone.utc)
+    
     # table columns
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(64), index=True, unique=True, nullable=False)
     password_hash = db.Column(db.String(255), nullable=False)
-    created_at = db.Column(db.DateTime, default=local_time, nullable=False)
+    created_at = db.Column(db.DateTime, default=func.now(), nullable=False)
     bio = db.Column(db.String(200), default='', nullable=True)
     avatar_url = db.Column(db.String(255), default='', nullable=True)
 
