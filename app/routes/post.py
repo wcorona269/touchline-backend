@@ -13,7 +13,7 @@ def create_post():
     if not text:
         return jsonify({'message': 'Missing required text field'}), 400
     
-    if len(text > 200):
+    if len(text) > 200:
         return jsonify({
             'message': 'post creation failed',
             'error': 'Post length too long'
