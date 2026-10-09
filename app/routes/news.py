@@ -12,7 +12,6 @@ bp = Blueprint('news', __name__, url_prefix='/news')
 def fetchNews():
     try:
         fav_names = request.json.get('favNames', []) if request.json else []
-        fav_names = []
         gNews = GoogleNews(period='10d')
         num_to_select = min(len(fav_names), 3)
         random_faves = random.sample(fav_names, num_to_select)
