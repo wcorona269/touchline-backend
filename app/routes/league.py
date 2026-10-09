@@ -7,6 +7,7 @@ import http.client
 from dotenv import load_dotenv
 from GoogleNews import GoogleNews
 from .league_ids import get_league_ids
+from ..extensions import cache
 
 load_dotenv(".flaskenv")
 api_key = os.getenv("API_KEY")
@@ -14,6 +15,7 @@ api_key = os.getenv("API_KEY")
 bp = Blueprint('league', __name__, url_prefix='/leagues')
 
 @bp.route('/index', methods=['GET'])
+@cache.cached(timeout=3600)
 def fetchAllComps():
     ids = get_league_ids()
     
@@ -50,6 +52,7 @@ def fetchAllComps():
 
 
 @bp.route('/<leagueId>/<season>', methods=['GET'])
+@cache.cached(timeout=300)
 def competitionInfo(leagueId, season):
     conn = http.client.HTTPSConnection("v3.football.api-sports.io")
     headers = {

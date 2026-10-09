@@ -1,10 +1,12 @@
 from flask import Blueprint, request, redirect, jsonify
 from GoogleNews import GoogleNews
 import random
+from ..extensions import cache
 
 bp = Blueprint('news', __name__, url_prefix='/news')
 
 @bp.route('/all', methods=['POST'])
+@cache.cached(timeout=600)
 def fetchNews():
     try:
         fav_names = request.json.get('favNames', []) if request.json else []
@@ -40,6 +42,7 @@ def fetchNews():
         return jsonify({'error': str(e)}), 500
 
 @bp.route('/top', methods=['POST'])
+@cache.cached(timeout=600)
 def fetchTopNews():
     try:
         gNews = GoogleNews()

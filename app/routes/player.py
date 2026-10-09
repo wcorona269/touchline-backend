@@ -3,12 +3,14 @@ import os
 from flask import Blueprint
 import http.client
 from dotenv import load_dotenv
+from ..extensions import cache
 load_dotenv(".flaskenv")
 api_key = os.getenv("API_KEY")
 
 bp = Blueprint('players', __name__, url_prefix='/players')
 
 @bp.route('/<playerId>', methods=['GET'])
+@cache.cached(timeout=3600)
 def competitionInfo(playerId):
   conn = http.client.HTTPSConnection("v3.football.api-sports.io")
   headers = {

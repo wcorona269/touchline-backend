@@ -4,6 +4,7 @@ from flask import Blueprint, jsonify
 import http.client
 from dotenv import load_dotenv
 from .league_ids import get_league_ids
+from ..extensions import cache
 load_dotenv(".flaskenv")
 
 api_key = os.getenv("API_KEY")
@@ -11,6 +12,7 @@ api_key = os.getenv("API_KEY")
 bp = Blueprint('matches', __name__, url_prefix='/matches')
 
 @bp.route('/<date>', methods=['GET'])
+@cache.cached(timeout=120)
 def matches(date):
     conn = http.client.HTTPSConnection("v3.football.api-sports.io")
     headers = {
@@ -42,6 +44,7 @@ def matches(date):
 
 
 @bp.route('/live', methods=['GET'])
+@cache.cached(timeout=30)
 def liveMatches():
     conn = http.client.HTTPSConnection("v3.football.api-sports.io")
     headers = {

@@ -3,12 +3,14 @@ import os
 from flask import Blueprint, jsonify
 import http.client
 from dotenv import load_dotenv
+from ..extensions import cache
 load_dotenv(".flaskenv")
 
 api_key = os.getenv("API_KEY")
 bp = Blueprint('standings', __name__, url_prefix='/standings')
 
 @bp.route('/<leagueId>', methods=['GET'])
+@cache.cached(timeout=300)
 def fetch_standings(leagueId):
     conn = http.client.HTTPSConnection("v3.football.api-sports.io")
     headers = {

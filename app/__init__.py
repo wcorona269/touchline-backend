@@ -1,11 +1,11 @@
 from flask import Flask, jsonify, request
-from flask_caching import Cache
 from flask_migrate import Migrate
 from flask_jwt_extended import JWTManager
 from sqlalchemy import create_engine
 from .config import Config
 from azure.storage.blob import BlobServiceClient
 from .models import User
+from .extensions import cache
 from app import routes
 from flask_cors import CORS
 from .models.db import db
@@ -28,7 +28,7 @@ blob_service_client = BlobServiceClient(account_url=f"https://{storage_account_n
 container_client = blob_service_client.get_container_client(container_name)
 
 app.config['CACHE_TYPE'] = 'simple'  # Use a simple in-memory cache
-cache = Cache(app)
+cache.init_app(app)
 
 @app.route('/')
 def index():

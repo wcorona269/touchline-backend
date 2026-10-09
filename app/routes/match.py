@@ -3,6 +3,7 @@ import os
 from flask import Blueprint, jsonify
 import http.client
 from dotenv import load_dotenv
+from ..extensions import cache
 load_dotenv(".flaskenv")
 
 api_key = os.getenv("API_KEY")
@@ -10,6 +11,7 @@ api_key = os.getenv("API_KEY")
 bp = Blueprint('match', __name__, url_prefix='/match')
 
 @bp.route('/<matchId>', methods=['GET'])
+@cache.cached(timeout=60)
 def get_match_info(matchId):
   conn = http.client.HTTPSConnection("v3.football.api-sports.io")
   headers = {
