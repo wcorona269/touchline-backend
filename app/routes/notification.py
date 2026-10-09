@@ -69,11 +69,20 @@ def fetchNotifications(userId):
 			'message': 'User not found'
 		}), 404
 
-	notifications = Notification.query.filter_by(recipient_id=int(userId)).all()
-	notifications_list = {notification.id: notification.to_dict() for notification in notifications}
+	page = request.args.get('page', 1, type=int)
+	per_page = request.args.get('per_page', 20, type=int)
+
+	notifications = Notification.query.filter_by(recipient_id=int(userId)).order_by(
+		Notification.created_at.desc()
+	).paginate(page=page, per_page=per_page, error_out=False)
+
+	notifications_list = {notification.id: notification.to_dict() for notification in notifications.items}
 
 	return jsonify({
-		'notifications': notifications_list
+		'notifications': notifications_list,
+		'total_pages': notifications.pages,
+		'current_page': notifications.page,
+		'total_notifications': notifications.total
 	}), 200
  
 @bp.route('/read-all/<int:userId>', methods=['POST'])
