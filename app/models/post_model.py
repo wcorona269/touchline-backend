@@ -1,8 +1,11 @@
+import logging
 from .db import db
 from .user_model import User
 from sqlalchemy import func
 from sqlalchemy.exc import IntegrityError
 from datetime import datetime, timezone, timedelta
+
+logger = logging.getLogger(__name__)
 
 class Post(db.Model):
     __tablename__ = 'posts'
@@ -27,7 +30,7 @@ class Post(db.Model):
             return True, post.to_dict()
         except IntegrityError as e:
             db.session.rollback()
-            print(f'Error creating post: {str(e)}')
+            logger.exception('Error creating post')
             return False, e
 
     @staticmethod
@@ -42,7 +45,7 @@ class Post(db.Model):
                 return False
         except Exception as e:
             db.session.rollback()
-            print(f"Error deleting post: {str(e)}")
+            logger.exception('Error deleting post')
             return False;
         
     def to_dict(self):

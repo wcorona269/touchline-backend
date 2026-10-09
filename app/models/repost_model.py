@@ -1,8 +1,11 @@
+import logging
 from .db import db
 from .user_model import User
 from .post_model import Post
 from datetime import datetime, timezone, timedelta
 from sqlalchemy import func
+
+logger = logging.getLogger(__name__)
 
 class Repost(db.Model):
   __tablename__ = 'reposts'
@@ -26,7 +29,7 @@ class Repost(db.Model):
       return True, new_repost
     except Exception as e:
       db.session.rollback()  # Rollback the session in case of an error
-      print(f"Error adding repost: {str(e)}")
+      logger.exception('Error adding repost')
       return False, None
     
   @staticmethod
@@ -41,7 +44,7 @@ class Repost(db.Model):
         return False
     except Exception as e:
       db.session.rollback()  # Rollback the session in case of an error
-      print(f"Error deleting repost: {str(e)}")
+      logger.exception('Error deleting repost')
       return False, None
     
   

@@ -14,6 +14,11 @@ import logging
 import os
 import jwt
 
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s %(levelname)s %(name)s: %(message)s'
+)
+
 app = Flask(__name__)
 migrate = Migrate(app, db)
 jwt_manager = JWTManager(app)

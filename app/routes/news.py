@@ -1,8 +1,10 @@
+import logging
 from flask import Blueprint, request, redirect, jsonify
 from GoogleNews import GoogleNews
 import random
 from ..extensions import cache
 
+logger = logging.getLogger(__name__)
 bp = Blueprint('news', __name__, url_prefix='/news')
 
 @bp.route('/all', methods=['POST'])
@@ -39,6 +41,7 @@ def fetchNews():
             'news': cleaned_news,
         }), 201
     except Exception as e:
+        logger.exception('Failed to fetch news')
         return jsonify({'error': str(e)}), 500
 
 @bp.route('/top', methods=['POST'])
@@ -49,8 +52,6 @@ def fetchTopNews():
         gNews.set_lang('en')
         gNews.set_period('7d')
         news_articles = []
-        # gNews.clear()
-        print(gNews.getVersion())
         gNews.get_news('soccer news')
         result = gNews.results()
         news_articles.extend(result)
@@ -71,4 +72,5 @@ def fetchTopNews():
             'news': cleaned_news,
         }), 201
     except Exception as e:
+        logger.exception('Failed to fetch top news')
         return jsonify({'error': str(e)}), 500

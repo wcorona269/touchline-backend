@@ -1,7 +1,10 @@
+import logging
 from datetime import datetime, timezone, timedelta
 from sqlalchemy import func
 from .user_model import User
 from .db import db
+
+logger = logging.getLogger(__name__)
 
 class Comment(db.Model):
     __tablename__ = 'comments'
@@ -39,7 +42,7 @@ class Comment(db.Model):
                     return False, 'Error creating comment'
             except Exception as e:
                 db.session.rollback()
-                print(f'Error creating comment: {str(e)}')    
+                logger.exception('Error creating comment')
                 return False, str(e)
     
     @staticmethod

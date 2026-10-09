@@ -1,8 +1,11 @@
+import logging
 from flask import Blueprint, request, jsonify
 from ..models import db, User
 from azure.storage.blob import BlobServiceClient
 from datetime import datetime
 import os
+
+logger = logging.getLogger(__name__)
 bp = Blueprint('users', __name__, url_prefix='/users')
 
 @bp.route('/update-avatar/<username>', methods=['POST'])
@@ -32,7 +35,7 @@ def update_avatar(username):
                 'message': 'Invalid request data'
             }), 404
     except Exception as e:
-        print(str(e))
+        logger.exception('Failed to upload avatar for %s', username)
         return jsonify({'error': 'Failed to upload file'}), 500
 
 @bp.route('/info/<username>', methods=['GET'])

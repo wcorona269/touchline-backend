@@ -1,3 +1,4 @@
+import logging
 from flask_login import UserMixin, login_user, login_required
 from sqlalchemy import CheckConstraint, func
 from sqlalchemy.exc import IntegrityError
@@ -6,6 +7,8 @@ from flask_jwt_extended import create_access_token, jwt_required, get_jwt_identi
 from .db import db, bcrypt
 from flask import jsonify
 from datetime import datetime, timezone, timedelta
+
+logger = logging.getLogger(__name__)
 
 class User(UserMixin, db.Model):
     __tablename__ = 'users'
@@ -117,7 +120,7 @@ class User(UserMixin, db.Model):
         except IntegrityError as e:
             db.session.rollback()
             error_info = str(e.orig)
-            print(error_info)
+            logger.warning('Registration failed: %s', error_info)
             error_messages = {
                     "unique constraint": "Username is already taken. Please choose another one.",
                     "password_length_check": "Password must be at least 8 characters long.",
