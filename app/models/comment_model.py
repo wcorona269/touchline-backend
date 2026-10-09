@@ -14,11 +14,11 @@ class Comment(db.Model):
     created_at = db.Column(db.DateTime, default=func.now(), nullable=False)
     parent_id = db.Column(db.Integer, db.ForeignKey('comments.id'), default=None)
 
-    user = db.relationship('User', back_populates='comments')
+    user = db.relationship('User', back_populates='comments', lazy='joined')
     post = db.relationship('Post', back_populates='comments', foreign_keys=[post_id])
     parent_comment = db.relationship('Comment', remote_side=[id], back_populates='replies')
     replies = db.relationship('Comment', back_populates='parent_comment')
-    comment_likes = db.relationship('CommentLike', back_populates='comment_likes_relation', cascade='all, delete-orphan')
+    comment_likes = db.relationship('CommentLike', back_populates='comment_likes_relation', cascade='all, delete-orphan', lazy='selectin')
     
     @staticmethod
     def create_comment(user_id, post_id, text, parent_id):
@@ -55,8 +55,7 @@ class Comment(db.Model):
     
     
     def to_dict(self):
-        user_instance = User.query.get(self.user_id)
-        user = user_instance.to_dict()
+        user = self.user.to_dict() if self.user else None
 
         return {
             'id': self.id,

@@ -13,14 +13,10 @@ class Post(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), index=True, nullable=False)
     created_at = db.Column(db.DateTime, default=func.now(), nullable=False)
     # relationships
-    user = db.relationship('User', back_populates='posts')
-    likes = db.relationship('PostLike', back_populates='post')
-    comments = db.relationship('Comment', back_populates='post')
-    reposts = db.relationship('Repost', back_populates='post')
-
-    likes = db.relationship('PostLike', back_populates='post', cascade='all, delete-orphan')
-    comments = db.relationship('Comment', back_populates='post', cascade='all, delete-orphan')
-    reposts = db.relationship('Repost', back_populates='post', cascade='all, delete-orphan')
+    user = db.relationship('User', back_populates='posts', lazy='joined')
+    likes = db.relationship('PostLike', back_populates='post', cascade='all, delete-orphan', lazy='selectin')
+    comments = db.relationship('Comment', back_populates='post', cascade='all, delete-orphan', lazy='selectin')
+    reposts = db.relationship('Repost', back_populates='post', cascade='all, delete-orphan', lazy='selectin')
     
     @staticmethod
     def create_post(user_id, text):
@@ -50,8 +46,7 @@ class Post(db.Model):
             return False;
         
     def to_dict(self):
-        user_instance = User.query.get(self.user_id)
-        user_data = User.to_dict(user_instance) if user_instance else None
+        user_data = self.user.to_dict() if self.user else None
 
         return {
                 'id': self.id,

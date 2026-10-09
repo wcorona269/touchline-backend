@@ -20,7 +20,7 @@ class Notification(db.Model):
     target_type = db.Column(db.Enum(NotificationType), nullable=False)  # Type of the target entity
     created_at = db.Column(db.DateTime, default=func.now(), nullable=False)
     read = db.Column(db.Boolean, nullable=False, default=False)
-    sender = db.relationship('User', back_populates='notifications_sent', foreign_keys=[sender_id])
+    sender = db.relationship('User', back_populates='notifications_sent', foreign_keys=[sender_id], lazy='joined')
     recipient = db.relationship('User', back_populates='notifications_received', foreign_keys=[recipient_id])
     
     # Add cascade behavior to delete associated notifications when a post, like, or comment is deleted
@@ -67,9 +67,8 @@ class Notification(db.Model):
     def read_all(user_id):
         user = User.query.get(user_id)
         if user:
-            for notif in user.notifications_received:
-                notif.read = True
-                db.session.commit()
+            Notification.query.filter_by(recipient_id=user_id, read=False).update({'read': True})
+            db.session.commit()
             return True, user.notifications_received
         else:
             return False

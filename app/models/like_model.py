@@ -1,5 +1,4 @@
 from .db import db
-from .user_model import User
 
 class PostLike(db.Model):
 	__tablename__ = 'post_likes'
@@ -26,8 +25,6 @@ class PostLike(db.Model):
 			return False
  
 	def to_dict(self):
-		user_instance = User.query.get(self.user_id)
-		user_data = User.to_dict(user_instance) if user_instance else None
 		return {
 			'id': self.id,
 			'user_id': self.user_id,
@@ -58,9 +55,6 @@ class CommentLike(db.Model):
 			return False
  
 	def to_dict(self):
-		user_instance = User.query.get(self.user_id)
-		user_data = User.to_dict(user_instance) if user_instance else None;
-  
 		return {
 			'id': self.id,
 			'user_id': self.user_id ,
