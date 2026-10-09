@@ -37,7 +37,12 @@ def update_avatar(username):
 
 @bp.route('/info/<username>', methods=['GET'])
 def get_user_info(username):
-    result, user = User.get_user_info(username)
+    posts_page = request.args.get('posts_page', 1, type=int)
+    reposts_page = request.args.get('reposts_page', 1, type=int)
+    likes_page = request.args.get('likes_page', 1, type=int)
+    per_page = request.args.get('per_page', 10, type=int)
+
+    result, user = User.get_user_info(username, posts_page, reposts_page, likes_page, per_page)
     if result == True:
         return jsonify({
             'message': 'User info fetched successfully',

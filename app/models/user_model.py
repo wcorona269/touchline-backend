@@ -41,26 +41,47 @@ class User(UserMixin, db.Model):
             return None
 
     @staticmethod
-    def get_user_info(username):
+    def get_user_info(username, posts_page=1, reposts_page=1, likes_page=1, per_page=10):
+        # deferred imports avoid a circular import with post_model/repost_model/like_model,
+        # which import User at their own module scope
+        from .post_model import Post
+        from .repost_model import Repost
+        from .like_model import PostLike
+
         user = User.query.filter_by(username=username).first()
-        
-        normalized_posts = { post.id: post.to_dict() for post in user.posts }
-        normalized_reposts = { repost.id: repost.to_dict() for repost in user.reposts }
-        normalized_likes = { like.id: like.post.to_dict() for like in user.likes }
-        
-        if user:
-            return True, {
-                    'username': user.username,
-                    'posts': normalized_posts,
-                    'reposts': normalized_reposts,
-                    'likes': normalized_likes,
-                    'bio': user.bio,
-                    'avatar_url': user.avatar_url,
-                    'created_at': user.created_at.strftime('%Y-%m-%d %H:%M:%S'),
-                    'favorites': [favorite.to_dict() for favorite in user.favorites]
-            }
-        else:
-            return False
+        if not user:
+            return False, None
+
+        posts_pagination = Post.query.filter_by(user_id=user.id).order_by(Post.created_at.desc()).paginate(
+            page=posts_page, per_page=per_page, error_out=False
+        )
+        reposts_pagination = Repost.query.filter_by(user_id=user.id).order_by(Repost.created_at.desc()).paginate(
+            page=reposts_page, per_page=per_page, error_out=False
+        )
+        likes_pagination = PostLike.query.filter_by(user_id=user.id).order_by(PostLike.id.desc()).paginate(
+            page=likes_page, per_page=per_page, error_out=False
+        )
+
+        normalized_posts = { post.id: post.to_dict() for post in posts_pagination.items }
+        normalized_reposts = { repost.id: repost.to_dict() for repost in reposts_pagination.items }
+        normalized_likes = { like.id: like.post.to_dict() for like in likes_pagination.items }
+
+        return True, {
+                'username': user.username,
+                'posts': normalized_posts,
+                'posts_total_pages': posts_pagination.pages,
+                'posts_current_page': posts_pagination.page,
+                'reposts': normalized_reposts,
+                'reposts_total_pages': reposts_pagination.pages,
+                'reposts_current_page': reposts_pagination.page,
+                'likes': normalized_likes,
+                'likes_total_pages': likes_pagination.pages,
+                'likes_current_page': likes_pagination.page,
+                'bio': user.bio,
+                'avatar_url': user.avatar_url,
+                'created_at': user.created_at.strftime('%Y-%m-%d %H:%M:%S'),
+                'favorites': [favorite.to_dict() for favorite in user.favorites]
+        }
 
     # Authentication functions
     def set_password(self, password):
