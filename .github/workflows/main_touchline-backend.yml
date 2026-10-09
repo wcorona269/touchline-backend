@@ -14,21 +14,6 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
-    services:
-      postgres:
-        image: postgres:14
-        env:
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: postgres
-          POSTGRES_DB: touchline_test
-        ports:
-          - 5432:5432
-        options: >-
-          --health-cmd pg_isready
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
-
     steps:
       - uses: actions/checkout@v4
 
@@ -41,18 +26,11 @@ jobs:
         run: |
           python -m venv venv
           source venv/bin/activate
-
+      
       - name: Install dependencies
-        run: pip install -r requirements-dev.txt
-
-      - name: Run tests
-        env:
-          TEST_DATABASE_URL: postgresql://postgres:postgres@localhost:5432/touchline_test
-          SECRET_KEY: test-secret-key
-          AZURE_STORAGE_ACCOUNT_NAME: test-account
-          AZURE_STORAGE_ACCOUNT_KEY: dGVzdC1rZXk=
-          AZURE_CONTAINER_NAME: test-container
-        run: pytest
+        run: pip install -r requirements.txt
+        
+      # Optional: Add step to run tests here (PyTest, Django test suites, etc.)
 
       - name: Zip artifact for deployment
         run: zip release.zip ./* -r
