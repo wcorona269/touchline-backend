@@ -17,8 +17,8 @@ import jwt
 app = Flask(__name__)
 migrate = Migrate(app, db)
 jwt_manager = JWTManager(app)
-CORS(app, supports_credentials=True)
 app.config.from_object(Config)
+CORS(app, supports_credentials=True, origins=app.config['ALLOWED_ORIGINS'])
 # Access Azure Storage configuration
 storage_account_name = app.config["AZURE_STORAGE_ACCOUNT_NAME"]
 storage_account_key = app.config["AZURE_STORAGE_ACCOUNT_KEY"]
