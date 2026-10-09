@@ -60,7 +60,7 @@ class Post(db.Model):
                 'likes': [like.to_dict() for like in self.likes],
                 'comments': [comment.to_dict() for comment in self.comments],
                 'reposts': [repost.user_info() for repost in self.reposts],
-                'created_at': self.created_at.strftime('%Y-%m-%d %H:%M:%S')
+                'created_at': self.created_at.strftime('%Y-%m-%dT%H:%M:%SZ')
             }
 
     def __repr__(self):

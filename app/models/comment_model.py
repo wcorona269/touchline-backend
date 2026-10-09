@@ -66,7 +66,7 @@ class Comment(db.Model):
             'post_id': self.post_id,
             'text': self.text,
             'likes': [like.to_dict() for like in self.comment_likes],
-            'created_at': self.created_at.strftime('%Y-%m-%d %H:%M:%S'),
+            'created_at': self.created_at.strftime('%Y-%m-%dT%H:%M:%SZ'),
             'username': user['username'],
             'avatar_url': user['avatar_url'],
             'parent_id': self.parent_id,

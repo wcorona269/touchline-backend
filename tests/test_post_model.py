@@ -1,6 +1,11 @@
+import re
+from datetime import datetime, timezone
+from app.models.db import db
 from app.models.post_model import Post
 from app.models.like_model import PostLike
 from app.models.repost_model import Repost
+
+ISO_UTC_RE = re.compile(r'^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$')
 
 
 def test_create_post(app, make_user):
@@ -50,3 +55,28 @@ def test_delete_post(app, make_user):
 
 def test_delete_post_missing_returns_false(app):
     assert Post.delete_post(999999) is False
+
+
+def test_created_at_is_valid_iso8601_utc(app, make_user):
+    # Regression check: created_at columns are naive (no tz awareness), so
+    # whatever wall-clock value Postgres writes depends on the session's
+    # TimeZone setting at INSERT time - if that session isn't forced to
+    # UTC (see db.py's "connect" event listener), this value silently
+    # drifts by the server's UTC offset while still being labeled 'Z',
+    # and sort-by-created_at on the frontend becomes unreliable whenever
+    # the DB session timezone differs from what the string claims.
+    user = make_user('tzchecker')
+    _, data = Post.create_post(user.id, 'tz regression check')
+
+    assert ISO_UTC_RE.match(data['created_at']), (
+        f"created_at {data['created_at']!r} is not valid ISO 8601 UTC "
+        "('T' separator + 'Z' suffix) - browsers parse other formats "
+        "inconsistently, which breaks created_at-based sorting."
+    )
+
+    parsed = datetime.strptime(data['created_at'], '%Y-%m-%dT%H:%M:%SZ').replace(tzinfo=timezone.utc)
+    drift_seconds = abs((datetime.now(timezone.utc) - parsed).total_seconds())
+    assert drift_seconds < 60, (
+        f"created_at is {drift_seconds:.0f}s off from real UTC now - the "
+        "DB session that wrote this row likely wasn't forced to UTC."
+    )

@@ -82,7 +82,7 @@ class User(UserMixin, db.Model):
                 'likes_current_page': likes_pagination.page,
                 'bio': user.bio,
                 'avatar_url': user.avatar_url,
-                'created_at': user.created_at.strftime('%Y-%m-%d %H:%M:%S'),
+                'created_at': user.created_at.strftime('%Y-%m-%dT%H:%M:%SZ'),
                 'favorites': [favorite.to_dict() for favorite in user.favorites]
         }
 

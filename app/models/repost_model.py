@@ -59,5 +59,5 @@ class Repost(db.Model):
 				'id': self.id,
 				'user': user_data,
 				'post': post_data,
-        'created_at': self.created_at.strftime('%Y-%m-%d %H:%M:%S')
+        'created_at': self.created_at.strftime('%Y-%m-%dT%H:%M:%SZ')
 		}

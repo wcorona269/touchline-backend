@@ -80,7 +80,7 @@ class Notification(db.Model):
             'recipient_id': self.recipient_id,
             'target_id': self.target_id,
             'target_type': self.target_type.value,
-            'created_at': self.created_at.strftime('%Y-%m-%d %H:%M:%S'),
+            'created_at': self.created_at.strftime('%Y-%m-%dT%H:%M:%SZ'),
             'read': self.read,
         'sender': self.sender.to_dict()
         }
