@@ -111,6 +111,8 @@ class User(UserMixin, db.Model):
     # Register User
     @staticmethod
     def register_user(username, password):
+        if not password or len(password) < 8:
+            return False, 'Password must be at least 8 characters long.'
         try:
             user = User(username=username)
             user.set_password(password)
