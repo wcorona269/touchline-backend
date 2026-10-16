@@ -16,6 +16,7 @@ from html import unescape
 from zoneinfo import ZoneInfo
 
 from ..extensions import cache
+from .parallel import run_parallel
 
 logger = logging.getLogger(__name__)
 
@@ -147,10 +148,8 @@ def _newest_first(articles):
 
 
 def general_news():
-    articles = []
-    for source, url in GENERAL_FEEDS.items():
-        articles.extend(fetch_feed(source, url))
-    return _newest_first(articles)
+    feeds = run_parallel(*[lambda source=source, url=url: fetch_feed(source, url) for source, url in GENERAL_FEEDS.items()])
+    return _newest_first([article for feed in feeds for article in feed])
 
 
 def mentions(article, terms):

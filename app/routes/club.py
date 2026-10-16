@@ -1,6 +1,8 @@
 import logging
 from flask import jsonify
 from .news_feeds import club_news
+from .slim import slim_fixtures
+from .parallel import run_parallel
 from flask import Blueprint
 from ..extensions import cache
 from .api_football import cached_api_get, is_success, ApiFootballError, season_ttl, MINUTE, HOUR, DAY
@@ -19,43 +21,29 @@ def club_info(clubId, season):
 
 
 def _club_info(clubId, season):
+    club_info, squad_data, fixtures = run_parallel(
+        lambda: cached_api_get(f"/teams?id={clubId}", DAY),
+        lambda: cached_api_get(f"/players/squads?team={clubId}", 12 * HOUR),
+        lambda: cached_api_get(f"/fixtures?team={clubId}&season={season}", season_ttl(season, 10 * MINUTE)),
+    )
 
-
-    # Request club info
-    club_info = cached_api_get(f"/teams?id={clubId}", DAY)
-
-    # Request squad details
-    squad_data = cached_api_get(f"/players/squads?team={clubId}", 12 * HOUR)
-
-    # Request club fixtures (previous and upcoming)
-    fixtures = cached_api_get(f"/fixtures?team={clubId}&season={season}", season_ttl(season, 10 * MINUTE))
-
-    # Get all competitions for season
-    competitions = {} 
-    for fixture in fixtures:
-        if fixture['league']['name'] not in competitions:
-            competitions[fixture['league']['name']] = fixture['league']['id']
-
-    # request stats for each competition from that season
-    # compile competitions into club_stats
-    club_stats = []
-    competition_ids = list(competitions.values())
-
-    for competition_id in competition_ids:
-        competition_stats = cached_api_get(f"/teams/statistics?team={clubId}&season={season}&league={competition_id}", season_ttl(season, HOUR))
-        # Competitions with no matches played yet come back as an empty list rather than a stats object.
-        if competition_stats and isinstance(competition_stats, dict):
-            club_stats.append(competition_stats)
-
-    # get club news
-    cleaned_news = club_news(club_info[0]['team']['name'])
+    # Stats are per competition, so they depend on which competitions the fixtures cover.
+    competition_ids = list(dict.fromkeys(fixture['league']['id'] for fixture in fixtures))
+    *competition_stats, cleaned_news = run_parallel(
+        *[lambda competition_id=competition_id: cached_api_get(
+            f"/teams/statistics?team={clubId}&season={season}&league={competition_id}", season_ttl(season, HOUR)
+        ) for competition_id in competition_ids],
+        lambda: club_news(club_info[0]['team']['name']),
+    )
+    # Competitions with no matches played yet come back as an empty list rather than a stats object.
+    club_stats = [stats for stats in competition_stats if stats and isinstance(stats, dict)]
 
     combined_data = {
             'club': club_info,
             'squad': squad_data,
-            'fixtures': fixtures,
+            'fixtures': slim_fixtures(fixtures),
             'stats': club_stats,
             'news': cleaned_news
     }
 
-    return combined_data;
+    return combined_data

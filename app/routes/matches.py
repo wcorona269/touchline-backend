@@ -2,6 +2,7 @@ import logging
 from datetime import date as Date, timedelta
 from flask import Blueprint, jsonify, request
 from .league_ids import get_league_ids
+from .slim import slim_fixture
 from .api_football import cached_api_get, ApiFootballError, MINUTE, WEEK
 
 bp = Blueprint('matches', __name__, url_prefix='/matches')
@@ -33,7 +34,7 @@ def matches(date):
         return jsonify(UNAVAILABLE), 503
     
     ids = get_league_ids()
-    filtered_matches = [match for match in matches_of_the_day if match['league']['id'] in ids]
+    filtered_matches = [slim_fixture(match) for match in matches_of_the_day if match['league']['id'] in ids]
     
     if matches_of_the_day:
         return jsonify({
@@ -54,7 +55,7 @@ def liveMatches():
         logging.warning("api-sports error in %s: %s", request.path, e)
         return jsonify(UNAVAILABLE), 503
     ids = get_league_ids()
-    filtered_matches = [match for match in live_matches if match['league']['id'] in ids]
+    filtered_matches = [slim_fixture(match) for match in live_matches if match['league']['id'] in ids]
     
     if live_matches:
         return jsonify({
