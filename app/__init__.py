@@ -1,4 +1,5 @@
 import tempfile
+from flask_compress import Compress
 from flask import Flask, jsonify, request
 from flask_migrate import Migrate
 from flask_jwt_extended import JWTManager
@@ -39,6 +40,10 @@ app.config['CACHE_TYPE'] = os.getenv('CACHE_TYPE', 'FileSystemCache')
 app.config['CACHE_DIR'] = os.getenv('CACHE_DIR', os.path.join(tempfile.gettempdir(), 'touchline-cache'))
 app.config['CACHE_THRESHOLD'] = 5000
 cache.init_app(app)
+
+# Gzip/Brotli JSON responses: fixture lists repeat the same team and league data hundreds of
+# times, so they compress by ~90%.
+Compress(app)
 
 @app.route('/')
 def index():
