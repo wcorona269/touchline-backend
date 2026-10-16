@@ -1,3 +1,5 @@
+from flask import request
+import logging
 import json
 import math
 from datetime import datetime
@@ -8,6 +10,7 @@ from dotenv import load_dotenv
 from GoogleNews import GoogleNews
 from .league_ids import get_league_ids
 from ..extensions import cache
+from .api_football import api_get, is_success, ApiFootballError
 
 load_dotenv(".flaskenv")
 api_key = os.getenv("API_KEY")
@@ -26,11 +29,7 @@ def fetchAllComps():
     }
     
     # Make the first API call to get standings
-    conn.request("GET", f"/leagues?current=True", headers=headers)
-    res = conn.getresponse()
-    data = res.read()
-    result = data.decode("utf-8")
-    league_data = json.loads(result)['response']
+    league_data = api_get(f"/leagues?current=True", conn)
     top_league_ids = set([2, 3, 39, 78, 135, 61, 140, 253 ])
     top_leagues = {}
     filtered_leagues = {}
@@ -52,8 +51,16 @@ def fetchAllComps():
 
 
 @bp.route('/<leagueId>/<season>', methods=['GET'])
-@cache.cached(timeout=300)
+@cache.cached(timeout=300, response_filter=is_success)
 def competitionInfo(leagueId, season):
+    try:
+        return _competition_info(leagueId, season)
+    except ApiFootballError as e:
+        logging.warning("api-sports error in %s: %s", request.path, e)
+        return jsonify({'error': 'The football data provider is temporarily unavailable. Try again in a minute.'}), 503
+
+
+def _competition_info(leagueId, season):
     conn = http.client.HTTPSConnection("v3.football.api-sports.io")
     headers = {
                 'x-rapidapi-host': "v3.football.api-sports.io",
@@ -61,32 +68,16 @@ def competitionInfo(leagueId, season):
         }
 
     # Make the first API call to get standings
-    conn.request("GET", f"/standings?league={leagueId}&season={season}", headers=headers)
-    res = conn.getresponse()
-    data = res.read()
-    result = data.decode("utf-8")
-    standings_data = json.loads(result)['response']
+    standings_data = api_get(f"/standings?league={leagueId}&season={season}", conn)
 
     # Get top scorer data
-    conn.request("GET", f"/players/topscorers?season={season}&league={leagueId}", headers=headers)
-    res = conn.getresponse()
-    data = res.read()
-    result = data.decode("utf-8")
-    top_scorer_data = json.loads(result)["response"]
+    top_scorer_data = api_get(f"/players/topscorers?season={season}&league={leagueId}", conn)
 
     # Top assists data
-    conn.request("GET", f"/players/topassists?season={season}&league={leagueId}",headers=headers)
-    res = conn.getresponse()
-    data = res.read()
-    result = data.decode("utf-8")
-    top_assists_data = json.loads(result)["response"]
+    top_assists_data = api_get(f"/players/topassists?season={season}&league={leagueId}", conn)
 
     # Fixture data
-    conn.request("GET", f"/fixtures?season={season}&league={leagueId}", headers=headers)
-    res = conn.getresponse()
-    data = res.read()
-    result = data.decode("utf-8")
-    fixture_data = json.loads(result)["response"]
+    fixture_data = api_get(f"/fixtures?season={season}&league={leagueId}", conn)
 
     # fetch competition news
     country = standings_data[0]['league']['country']
