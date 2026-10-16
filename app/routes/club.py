@@ -1,6 +1,6 @@
 import logging
 from flask import request, jsonify
-from GoogleNews import GoogleNews
+from .news_feeds import club_news
 import json
 import os
 from flask import Blueprint
@@ -59,16 +59,7 @@ def _club_info(clubId, season):
             club_stats.append(competition_stats)
 
     # get club news
-    club_name = club_info[0]['team']['name']
-    gNews = GoogleNews(period='20d')
-    gNews.get_news(club_name)
-    competition_news = gNews.results()
-    cleaned_news = []
-    for article in competition_news:
-        # Create a new dictionary excluding the 'datetime' key
-        cleaned_article = {key: value for key,
-                            value in article.items() if key != 'datetime'}
-        cleaned_news.append(cleaned_article)
+    cleaned_news = club_news(club_info[0]['team']['name'])
 
     combined_data = {
             'club': club_info,

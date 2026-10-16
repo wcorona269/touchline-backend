@@ -7,7 +7,7 @@ import os
 from flask import Blueprint, jsonify
 import http.client
 from dotenv import load_dotenv
-from GoogleNews import GoogleNews
+from .news_feeds import league_news
 from .league_ids import get_league_ids
 from ..extensions import cache
 from .api_football import api_get, is_success, ApiFootballError
@@ -80,20 +80,8 @@ def _competition_info(leagueId, season):
     fixture_data = api_get(f"/fixtures?season={season}&league={leagueId}", conn)
 
     # fetch competition news
-    country = standings_data[0]['league']['country']
-    name = standings_data[0]['league']['name']
-    news_topic = f'{country} {name}'
-    gNews = GoogleNews(period='20d')
-    gNews.get_news(news_topic)
-    competition_news = gNews.results()
+    cleaned_news = league_news(leagueId, standings_data[0]['league']['name'])
 
-    cleaned_news = []
-    for article in competition_news:
-        # Create a new dictionary excluding the 'datetime' key
-        cleaned_article = {key: value for key,
-                        value in article.items() if key != 'datetime'}
-        cleaned_news.append(cleaned_article)
-            
     # combine data and return to frontend
     combined_data = {
             "standings": standings_data,

@@ -9,7 +9,14 @@ SQLAlchemy, Alembic for migrations. Deployed to Azure (`.github/workflows/*touch
 - `app/models/` — ORM models: users, posts, comments, likes (post/comment), reposts,
   favorites, notifications.
 - `app/routes/` — API endpoints, including sports-data routes that proxy/aggregate from the
-  api-sports.io football API (league, club, player, match, standings) plus a news-scraping route.
+  api-sports.io football API (league, club, player, match, standings) plus a news route.
+- `app/routes/api_football.py` — `api_get` helper for api-sports calls. The free plan allows
+  10 requests/minute and 100/day, and reports failures as HTTP 200 with an `errors` field;
+  `api_get` raises on those, and routes use `response_filter=is_success` so errors aren't cached.
+- `app/routes/news_feeds.py` — news from publisher RSS feeds (BBC, Guardian, ESPN, Sky), cached
+  per feed and filtered per request. Replaced the GoogleNews scraper after Google began
+  rate-limiting (429) the server's IP.
+- `app/routes/seasons.py` — `current_season()` (July rollover); don't hardcode seasons.
 - `database.py`, `config.py`, `run.py` — app/DB setup and entrypoint.
 - `migrations/` — Alembic schema history.
 - `seeds.py` — dev seed data.
