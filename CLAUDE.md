@@ -30,10 +30,11 @@ backend; it has been removed as a superseded duplicate — this folder is the on
   for one-to-one, `lazy='selectin'` for collections) instead of redundant `User.query.get(...)`
   calls. `Notification.read_all()` does one bulk `UPDATE` instead of per-row commits.
   `PostLike`/`CommentLike.to_dict()` no longer fire a dead, unused query.
-- Sports-data routes (`league.py`, `club.py`, `player.py`, `match.py`, `matches.py`,
-  `standings.py`, `news.py`) are cached via `flask_caching` (`app/extensions.py`), with timeouts
-  matched to how often that data changes (1hr league/player lookups, 5min standings/club info,
-  30s–2min live/by-date matches, 10min news).
+- api-sports calls go through `cached_api_get` (`app/routes/api_football.py`): cached per call
+  path, shared across routes, with TTLs by data type (1 day club info, 12h squads, 1h stats/top
+  scorers, 10 min current standings/fixtures, 1 week past seasons and finished matches, 60s live).
+  Concurrent identical calls are coalesced. Cache is `FileSystemCache` (`CACHE_DIR`), so it
+  survives restarts; tests use `NullCache`. News feeds are memoized per feed (10 min).
 - Pagination added to `/notifications/fetch/<userId>` and `User.get_user_info` (profile
   posts/reposts/likes, 10 per page, exposed as `posts_total_pages`/`posts_current_page` etc. in
   the response — see matching frontend "See More" buttons in the frontend CLAUDE.md).
