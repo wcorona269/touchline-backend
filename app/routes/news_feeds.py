@@ -123,10 +123,27 @@ def fetch_feed(source, url):
     return articles
 
 
+def mix_sources(articles):
+    """Interleave publishers instead of strict newest-first. ESPN, for one, publishes in batches
+    with identical timestamps and no images, which would otherwise fill the top of the feed.
+    Each round takes the newest remaining story from every publisher (newest-first within the
+    round), so every source shows up near the top and each source's own stories stay in order.
+    Expects `articles` newest-first."""
+    queues = {}
+    for article in articles:
+        queues.setdefault(article['media'], []).append(article)
+    mixed = []
+    while queues:
+        round_ = [queue.pop(0) for queue in queues.values()]
+        mixed.extend(sorted(round_, key=lambda a: a['published'] or '', reverse=True))
+        queues = {source: queue for source, queue in queues.items() if queue}
+    return mixed
+
+
 def _newest_first(articles):
     # Several feeds can carry the same story; keep one copy per link.
     unique = {a['link']: a for a in articles}
-    return sorted(unique.values(), key=lambda a: a['published'] or '', reverse=True)
+    return mix_sources(sorted(unique.values(), key=lambda a: a['published'] or '', reverse=True))
 
 
 def general_news():
@@ -148,7 +165,7 @@ def personalized_news(fav_names, limit=100):
         return articles[:limit]
     favorite = [a for a in articles if mentions(a, fav_names)]
     rest = [a for a in articles if not mentions(a, fav_names)]
-    return (favorite + rest)[:limit]
+    return (mix_sources(favorite) + mix_sources(rest))[:limit]
 
 
 def _guardian_slugs(club_name):
