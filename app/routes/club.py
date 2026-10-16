@@ -1,3 +1,4 @@
+import logging
 from flask import request, jsonify
 from GoogleNews import GoogleNews
 import json
@@ -6,6 +7,7 @@ from flask import Blueprint
 import http.client
 from dotenv import load_dotenv
 from ..extensions import cache
+from .api_football import api_get, is_success, ApiFootballError
 load_dotenv(".flaskenv")
 api_key = os.getenv("API_KEY")
 
@@ -17,37 +19,27 @@ headers = {
 }
 
 @bp.route('/info/<clubId>/<season>', methods=['GET'])
-@cache.cached(timeout=300)
+@cache.cached(timeout=300, response_filter=is_success)
 def club_info(clubId, season):
+    try:
+        return _club_info(clubId, season)
+    except ApiFootballError as e:
+        logging.warning("api-sports error fetching club %s: %s", clubId, e)
+        return jsonify({'error': 'The football data provider is temporarily unavailable. Try again in a minute.'}), 503
+
+
+def _club_info(clubId, season):
     conn = http.client.HTTPSConnection("v3.football.api-sports.io")
 
-    # Request club seasons
-    conn.request("GET", f"/teams/seasons?team={clubId}", headers=headers)
-    res = conn.getresponse()
-    data = res.read()
-    result = data.decode("utf-8")
-    club_seasons = json.loads(result)['response']
 
     # Request club info
-    conn.request("GET", f"/teams?id={clubId}", headers=headers)
-    res = conn.getresponse()
-    data = res.read()
-    result = data.decode("utf-8")
-    club_info = json.loads(result)['response']
+    club_info = api_get(f"/teams?id={clubId}", conn)
 
     # Request squad details
-    conn.request("GET", f"/players/squads?team={clubId}", headers=headers)
-    res = conn.getresponse()
-    data = res.read()
-    result = data.decode("utf-8")
-    squad_data = json.loads(result)['response']
+    squad_data = api_get(f"/players/squads?team={clubId}", conn)
 
     # Request club fixtures (previous and upcoming)
-    conn.request("GET", f"/fixtures?team={clubId}&season={season}",headers=headers)
-    res = conn.getresponse()
-    data = res.read()
-    result = data.decode("utf-8")
-    fixtures = json.loads(result)['response']
+    fixtures = api_get(f"/fixtures?team={clubId}&season={season}", conn)
 
     # Get all competitions for season
     competitions = {} 
@@ -61,12 +53,10 @@ def club_info(clubId, season):
     competition_ids = list(competitions.values())
 
     for competition_id in competition_ids:
-        conn.request("POST", f"/teams/statistics?team={clubId}&season={season}&league={competition_id}", headers=headers)
-        res = conn.getresponse()
-        data = res.read()
-        result = data.decode("utf-8")
-        competition_stats = json.loads(result)['response']
-        club_stats.append(competition_stats)
+        competition_stats = api_get(f"/teams/statistics?team={clubId}&season={season}&league={competition_id}", conn)
+        # Competitions with no matches played yet come back as an empty list rather than a stats object.
+        if competition_stats and isinstance(competition_stats, dict):
+            club_stats.append(competition_stats)
 
     # get club news
     club_name = club_info[0]['team']['name']
@@ -84,7 +74,6 @@ def club_info(clubId, season):
             'club': club_info,
             'squad': squad_data,
             'fixtures': fixtures,
-            'seasons': club_seasons,
             'stats': club_stats,
             'news': cleaned_news
     }
