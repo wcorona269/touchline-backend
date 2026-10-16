@@ -1,3 +1,4 @@
+import tempfile
 from flask import Flask, jsonify, request
 from flask_migrate import Migrate
 from flask_jwt_extended import JWTManager
@@ -32,7 +33,11 @@ container_name = app.config["AZURE_CONTAINER_NAME"]
 blob_service_client = BlobServiceClient(account_url=f"https://{storage_account_name}.blob.core.windows.net", credential=storage_account_key)
 container_client = blob_service_client.get_container_client(container_name)
 
-app.config['CACHE_TYPE'] = 'simple'  # Use a simple in-memory cache
+# File-backed so cached football data survives restarts and is shared across worker processes:
+# the api-sports free plan only allows 100 requests a day.
+app.config['CACHE_TYPE'] = os.getenv('CACHE_TYPE', 'FileSystemCache')
+app.config['CACHE_DIR'] = os.getenv('CACHE_DIR', os.path.join(tempfile.gettempdir(), 'touchline-cache'))
+app.config['CACHE_THRESHOLD'] = 5000
 cache.init_app(app)
 
 @app.route('/')

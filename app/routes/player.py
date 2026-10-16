@@ -1,15 +1,9 @@
 from flask import request
 import logging
-import json
-import os
 from flask import Blueprint, jsonify
-import http.client
-from dotenv import load_dotenv
 from ..extensions import cache
-from .api_football import api_get, is_success, ApiFootballError
+from .api_football import cached_api_get, is_success, ApiFootballError, season_ttl, HOUR
 from .seasons import current_season
-load_dotenv(".flaskenv")
-api_key = os.getenv("API_KEY")
 
 bp = Blueprint('players', __name__, url_prefix='/players')
 
@@ -24,16 +18,11 @@ def competitionInfo(playerId):
 
 
 def _player_info(playerId):
-  conn = http.client.HTTPSConnection("v3.football.api-sports.io")
-  headers = {
-      'x-rapidapi-host': "v3.football.api-sports.io",
-      'x-rapidapi-key': api_key
-  }
 
   # A player with no appearances yet this season comes back empty, so fall back to last season.
   season = current_season()
   for attempt in (season, season - 1):
-    player_data = api_get(f"/players?id={playerId}&season={attempt}", conn)
+    player_data = cached_api_get(f"/players?id={playerId}&season={attempt}", season_ttl(attempt, 6 * HOUR))
     if player_data:
       break
   return player_data

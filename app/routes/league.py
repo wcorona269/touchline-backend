@@ -1,19 +1,11 @@
 from flask import request
 import logging
-import json
-import math
-from datetime import datetime
-import os
 from flask import Blueprint, jsonify
-import http.client
-from dotenv import load_dotenv
 from .news_feeds import league_news
 from .league_ids import get_league_ids
 from ..extensions import cache
-from .api_football import api_get, is_success, ApiFootballError
+from .api_football import cached_api_get, is_success, ApiFootballError, season_ttl, MINUTE, HOUR, DAY
 
-load_dotenv(".flaskenv")
-api_key = os.getenv("API_KEY")
 
 bp = Blueprint('league', __name__, url_prefix='/leagues')
 
@@ -22,14 +14,9 @@ bp = Blueprint('league', __name__, url_prefix='/leagues')
 def fetchAllComps():
     ids = get_league_ids()
     
-    conn = http.client.HTTPSConnection("v3.football.api-sports.io")
-    headers = {
-            'x-rapidapi-host': "v3.football.api-sports.io",
-            'x-rapidapi-key': api_key
-    }
     
     # Make the first API call to get standings
-    league_data = api_get(f"/leagues?current=True", conn)
+    league_data = cached_api_get("/leagues?current=True", DAY)
     top_league_ids = set([2, 3, 39, 78, 135, 61, 140, 253 ])
     top_leagues = {}
     filtered_leagues = {}
@@ -61,23 +48,18 @@ def competitionInfo(leagueId, season):
 
 
 def _competition_info(leagueId, season):
-    conn = http.client.HTTPSConnection("v3.football.api-sports.io")
-    headers = {
-                'x-rapidapi-host': "v3.football.api-sports.io",
-                'x-rapidapi-key': api_key
-        }
 
     # Make the first API call to get standings
-    standings_data = api_get(f"/standings?league={leagueId}&season={season}", conn)
+    standings_data = cached_api_get(f"/standings?league={leagueId}&season={season}", season_ttl(season, 10 * MINUTE))
 
     # Get top scorer data
-    top_scorer_data = api_get(f"/players/topscorers?season={season}&league={leagueId}", conn)
+    top_scorer_data = cached_api_get(f"/players/topscorers?season={season}&league={leagueId}", season_ttl(season, HOUR))
 
     # Top assists data
-    top_assists_data = api_get(f"/players/topassists?season={season}&league={leagueId}", conn)
+    top_assists_data = cached_api_get(f"/players/topassists?season={season}&league={leagueId}", season_ttl(season, HOUR))
 
     # Fixture data
-    fixture_data = api_get(f"/fixtures?season={season}&league={leagueId}", conn)
+    fixture_data = cached_api_get(f"/fixtures?season={season}&league={leagueId}", season_ttl(season, 10 * MINUTE))
 
     # fetch competition news
     cleaned_news = league_news(leagueId, standings_data[0]['league']['name'])

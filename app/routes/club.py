@@ -1,22 +1,12 @@
 import logging
-from flask import request, jsonify
+from flask import jsonify
 from .news_feeds import club_news
-import json
-import os
 from flask import Blueprint
-import http.client
-from dotenv import load_dotenv
 from ..extensions import cache
-from .api_football import api_get, is_success, ApiFootballError
-load_dotenv(".flaskenv")
-api_key = os.getenv("API_KEY")
+from .api_football import cached_api_get, is_success, ApiFootballError, season_ttl, MINUTE, HOUR, DAY
 
 bp = Blueprint('clubs', __name__, url_prefix='/clubs')
 
-headers = {
-        'x-rapidapi-host': "v3.football.api-sports.io",
-        'x-rapidapi-key': api_key
-}
 
 @bp.route('/info/<clubId>/<season>', methods=['GET'])
 @cache.cached(timeout=300, response_filter=is_success)
@@ -29,17 +19,16 @@ def club_info(clubId, season):
 
 
 def _club_info(clubId, season):
-    conn = http.client.HTTPSConnection("v3.football.api-sports.io")
 
 
     # Request club info
-    club_info = api_get(f"/teams?id={clubId}", conn)
+    club_info = cached_api_get(f"/teams?id={clubId}", DAY)
 
     # Request squad details
-    squad_data = api_get(f"/players/squads?team={clubId}", conn)
+    squad_data = cached_api_get(f"/players/squads?team={clubId}", 12 * HOUR)
 
     # Request club fixtures (previous and upcoming)
-    fixtures = api_get(f"/fixtures?team={clubId}&season={season}", conn)
+    fixtures = cached_api_get(f"/fixtures?team={clubId}&season={season}", season_ttl(season, 10 * MINUTE))
 
     # Get all competitions for season
     competitions = {} 
@@ -53,7 +42,7 @@ def _club_info(clubId, season):
     competition_ids = list(competitions.values())
 
     for competition_id in competition_ids:
-        competition_stats = api_get(f"/teams/statistics?team={clubId}&season={season}&league={competition_id}", conn)
+        competition_stats = cached_api_get(f"/teams/statistics?team={clubId}&season={season}&league={competition_id}", season_ttl(season, HOUR))
         # Competitions with no matches played yet come back as an empty list rather than a stats object.
         if competition_stats and isinstance(competition_stats, dict):
             club_stats.append(competition_stats)

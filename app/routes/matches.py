@@ -1,33 +1,36 @@
-import json
-import os
-from flask import Blueprint, jsonify
-import http.client
-from dotenv import load_dotenv
+import logging
+from datetime import date as Date, timedelta
+from flask import Blueprint, jsonify, request
 from .league_ids import get_league_ids
-from ..extensions import cache
-load_dotenv(".flaskenv")
-
-api_key = os.getenv("API_KEY")
+from .api_football import cached_api_get, ApiFootballError, MINUTE, WEEK
 
 bp = Blueprint('matches', __name__, url_prefix='/matches')
 
-@bp.route('/<date>', methods=['GET'])
-@cache.cached(timeout=120)
-def matches(date):
-    conn = http.client.HTTPSConnection("v3.football.api-sports.io")
-    headers = {
-    'x-rapidapi-host': "v3.football.api-sports.io",
-    'x-rapidapi-key': api_key
-    }
+UNAVAILABLE = {'error': 'The football data provider is temporarily unavailable. Try again in a minute.'}
 
-    conn.request("GET",
-                f"/fixtures?date={date}",
-                headers=headers)
-    res = conn.getresponse()
-    data = res.read()
-    result = data.decode("utf-8")
-    json_data = json.loads(result)
-    matches_of_the_day = json_data["response"]
+
+def date_ttl(date):
+    """Days that are fully over never change. Yesterday and today can still have games in
+    progress somewhere (dates are UTC), and future fixtures only shift occasionally."""
+    try:
+        day = Date.fromisoformat(date)
+    except ValueError:
+        return 2 * MINUTE
+    today = Date.today()
+    if day < today - timedelta(days=1):
+        return WEEK
+    if day <= today:
+        return 2 * MINUTE
+    return 30 * MINUTE
+
+
+@bp.route('/<date>', methods=['GET'])
+def matches(date):
+    try:
+        matches_of_the_day = cached_api_get(f"/fixtures?date={date}", date_ttl(date))
+    except ApiFootballError as e:
+        logging.warning("api-sports error in %s: %s", request.path, e)
+        return jsonify(UNAVAILABLE), 503
     
     ids = get_league_ids()
     filtered_matches = [match for match in matches_of_the_day if match['league']['id'] in ids]
@@ -44,20 +47,12 @@ def matches(date):
 
 
 @bp.route('/live', methods=['GET'])
-@cache.cached(timeout=30)
 def liveMatches():
-    conn = http.client.HTTPSConnection("v3.football.api-sports.io")
-    headers = {
-        'x-rapidapi-host': "v3.football.api-sports.io",
-        'x-rapidapi-key': api_key
-    }
-
-    conn.request("GET", "/fixtures?live=all",headers=headers)
-    res = conn.getresponse()
-    data = res.read()
-    result = data.decode("utf-8")
-    json_data = json.loads(result)
-    live_matches = json_data["response"]
+    try:
+        live_matches = cached_api_get("/fixtures?live=all", MINUTE)
+    except ApiFootballError as e:
+        logging.warning("api-sports error in %s: %s", request.path, e)
+        return jsonify(UNAVAILABLE), 503
     ids = get_league_ids()
     filtered_matches = [match for match in live_matches if match['league']['id'] in ids]
     

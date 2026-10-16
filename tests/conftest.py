@@ -8,6 +8,8 @@ os.environ.setdefault(
     os.environ.get('TEST_DATABASE_URL', 'postgresql://postgres:postgres@localhost:5432/touchline_test')
 )
 os.environ.setdefault('SECRET_KEY', 'test-secret-key')
+# Don't read or write the shared on-disk cache from tests.
+os.environ.setdefault('CACHE_TYPE', 'NullCache')
 os.environ.setdefault('AZURE_STORAGE_ACCOUNT_NAME', 'test-account')
 os.environ.setdefault('AZURE_STORAGE_ACCOUNT_KEY', 'dGVzdC1rZXk=')
 os.environ.setdefault('AZURE_CONTAINER_NAME', 'test-container')
